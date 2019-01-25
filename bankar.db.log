@@ -1,4 +1,4 @@
-/*C4*/SET SCHEMA PUBLIC
+/*C3*/SET SCHEMA PUBLIC
 drop table person if exists
 drop sequence hibernate_sequence if exists
 create sequence hibernate_sequence start with 1 increment by 1

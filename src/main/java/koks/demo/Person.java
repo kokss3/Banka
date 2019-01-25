@@ -16,6 +16,10 @@ public class Person {
     private int accountId;
     private double personalFunds;
 
+    public Person(){
+
+    }
+
     public Person(String person, int accountId, double personalFunds) {
         this.person = person;
         this.accountId = accountId;
