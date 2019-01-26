@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/person")
+@RequestMapping()
 public class PersonController {
 
     private PersonRepository personRepository;
@@ -30,7 +30,12 @@ public class PersonController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public  List<Person> create(@RequestBody Person person){
         personRepository.save(person);
+        return personRepository.findAll();
+    }
 
+    @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
+    public  List<Person> remove(@PathVariable long id){
+        personRepository.deleteById(id);
         return personRepository.findAll();
     }
 

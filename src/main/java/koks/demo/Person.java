@@ -10,7 +10,7 @@ public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long id;
+//    private long id;
 
     private String person;
     private int accountId;
@@ -20,7 +20,7 @@ public class Person {
 
     }
 
-    public Person(String person, int accountId, double personalFunds) {
+    public Person(int accountId, String person, double personalFunds) {
         this.person = person;
         this.accountId = accountId;
         this.personalFunds = personalFunds;
@@ -50,7 +50,7 @@ public class Person {
         this.personalFunds = personalFunds;
     }
 
-    public long getId() {
-        return id;
-    }
+//    public long getId() {
+//       return id;
+//    }
 }
