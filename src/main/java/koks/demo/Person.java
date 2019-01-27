@@ -10,8 +10,7 @@ public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-//    private long id;
-
+    private long id;
     private String person;
     private int accountId;
     private double personalFunds;
@@ -46,7 +45,7 @@ public class Person {
         return personalFunds;
     }
 
-    public void setPersonalFunds(double funds) {
+    public void setPersonalFunds(double personalFunds) {
         this.personalFunds = personalFunds;
     }
 
