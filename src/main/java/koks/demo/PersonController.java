@@ -33,7 +33,7 @@ public class PersonController {
         return personRepository.findAll();
     }
 
-    @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/remove/{id}", method = RequestMethod.POST)
     public  List<Person> remove(@PathVariable long id){
         personRepository.deleteById(id);
         return personRepository.findAll();
