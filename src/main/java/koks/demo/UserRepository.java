@@ -15,6 +15,11 @@ public class UserRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    /*
+    Vidi se koji je table otvoren i odakle ga povlačim  sa localhost-a
+    postavljen je mySQL preko XAMPP-a
+
+     */
     List<String> getAllUsers(){
         List<String> usernameList = new ArrayList<>();
         usernameList.addAll(jdbcTemplate.queryForList("SELECT id FROM racuni;",String.class));
@@ -27,6 +32,7 @@ public class UserRepository {
         return usernameList;
     }
 
+    //
     List<String> getAllOIBs(){
         List<String> usernameList = new ArrayList<>();
         usernameList.addAll(jdbcTemplate.queryForList("SELECT oibPerson FROM racuni;",String.class));

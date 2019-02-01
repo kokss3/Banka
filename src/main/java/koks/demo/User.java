@@ -12,6 +12,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+
     private Integer id;
     private String namePerson;
     private Integer personalFunds;
