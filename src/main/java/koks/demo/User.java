@@ -2,36 +2,26 @@ package koks.demo;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.*;
 
 @Entity
 public class User {
-    public User() {
+
+    protected User() {
+    }
+
+    public User(String namePerson, String iban, Integer personalFunds) {
+        this.namePerson = namePerson;
+        this.personalFunds = personalFunds;
+        this.iban = iban;
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-
+    @GeneratedValue
     private Integer id;
-    private Integer accId;
     private String namePerson;
     private Integer personalFunds;
-    private String oibPerson;
-
-    public void checkIfMore(){
-
-    }
-
-    public List getList(){
-        List<String> a = new ArrayList<>();
-
-      //  a.add(namePerson);
-        a.add(personalFunds.toString());
-        a.add(oibPerson);
-        return a;
-    }
+    private String iban;
 
     public Integer getId() {
         return id;
@@ -39,14 +29,6 @@ public class User {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getAccId() {
-        return accId;
-    }
-
-    public void setAccId(Integer accId) {
-        this.accId = accId;
     }
 
     public String getNamePerson() {
@@ -65,13 +47,21 @@ public class User {
         this.personalFunds = personalFunds;
     }
 
-    public String getOibPerson() {
-        return oibPerson;
+    public String getIban() {
+        return iban;
     }
 
-    public void setOibPerson(String oibPerson) {
-        this.oibPerson = oibPerson;
+    public void setIban(String iban) {
+        this.iban = iban;
     }
 
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", namePerson='" + namePerson + '\'' +
+                ", personalFunds=" + personalFunds +
+                ", iban='" + iban + '\'' +
+                '}';
+    }
 }
