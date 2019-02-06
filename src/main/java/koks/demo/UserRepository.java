@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.RowSet;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,31 +14,36 @@ import java.util.List;
 public class UserRepository {
 
     /**
-     * Za asd se poigrao samo sa implementacijom i vrtnjom logike
+     * Za asd se poigrao samo sa queryjima
      *
      * */
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public List<User> findAll(){
-        return jdbcTemplate.query("select * from korisnici", (rs, rowNum) -> {
-            User user = new User();
-            user.setId(rs.getInt("id"));
-            user.setNamePerson(rs.getString("namePerson"));
-            user.setIban(rs.getString("IBAN"));
-            user.setPersonalFunds(rs.getInt("funds"));
-            return user;
-        });
+    private User doSomething(ResultSet rs) throws SQLException {
+        User user = new User();
+        user.setId(rs.getInt("id"));
+        user.setNamePerson(rs.getString("namePerson"));
+        user.setIban(rs.getString("IBAN"));
+        user.setPersonalFunds(rs.getInt("funds"));
+        return user;
     }
 
+
+    public List<User> findAll(){
+        String query = "select * from korisnici";
+        return jdbcTemplate.query(query, (rs,rowNum) -> doSomething(rs));
+    }
+
+    public List<User> findAll(String message){
+        String query = message;
+        return jdbcTemplate.query(query, (rs,rowNum) -> doSomething(rs));
+    }
+
+
     public List<User> showSpecific(String iban){
-        List<User> tempList = new ArrayList<>();
-        for(User temp:findAll()){
-            if(iban.equals(temp.getIban())) {
-                tempList.add(temp);
-            }
-        }
-        return tempList;
+        String query = "select * from korisnici where iban="+iban+";";
+        return findAll(query);
     }
 
     public User sumAllFunds(String iban){
