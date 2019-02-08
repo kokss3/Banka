@@ -1,0 +1,7 @@
+<html>
+    <head>
+        <title>Banka</title>
+        <link href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"
+            rel="stylesheet">
+    </head>
+    <body>
