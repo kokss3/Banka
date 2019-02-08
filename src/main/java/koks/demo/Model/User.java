@@ -1,4 +1,4 @@
-package koks.demo;
+package koks.demo.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
