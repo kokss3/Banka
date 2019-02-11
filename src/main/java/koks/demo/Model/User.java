@@ -19,7 +19,7 @@ public class User {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
     private String name;
     private Integer funds;
@@ -65,5 +65,20 @@ public class User {
                 ", funds=" + funds +
                 ", iban='" + iban + '\'' +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return id == null ? 0 : id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (id == null || obj == null || getClass() != obj.getClass())
+            return false;
+        User that = (User) obj;
+        return id.equals(that.id);
     }
 }

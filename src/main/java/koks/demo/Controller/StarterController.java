@@ -13,6 +13,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+Preostalo:
+ -logika za prijenos sredstava
+ -logika za duple unose u bazu: -nakon svake transakcije, povuči sve vrijednosti, zbrojiti, flushati duple entryje isejvati novi
+ -Spring Security pohrana korisnika u bazu
+ */
+
 @Controller
 public class StarterController {
 
@@ -34,7 +41,7 @@ public class StarterController {
         return service.getIban(name);
     }
 
-    @GetMapping(value="/transfer")
+    @GetMapping("/transfer")
     public String runTransfer(ModelMap model){
         model.addAttribute("acc-holder", new User());
 
@@ -42,15 +49,14 @@ public class StarterController {
         return "transfer";
     }
 
-    @PostMapping(value = "/transfer")
+    @PostMapping("/transfer")
     public String sendFunds(ModelMap model, @ModelAttribute("acc-holder") User user, BindingResult result) {
 
         if(result.hasErrors()){
             return "index";
         }
-        user.setName(getLoggedInUserName());
-        repository.save(user);
-        return "redirect:/index";
+        service.saveInDB(user);
+        return "redirect:/transfer";
     }
 
     private String getLoggedInUserName(){
