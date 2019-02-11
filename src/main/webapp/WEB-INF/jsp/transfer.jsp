@@ -7,24 +7,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <div class="container">
-    <table class="table-striped" width="75%" align="center">
-        <thead>
-            <tr style="width: 200px">
+    <form:form method="post" modelAttribute="users">
+        <fieldset class="form-group">
+            <form:label path="name">Ime primatelja:</form:label>
+            <form:input path="name" type="text" class="form-control" required="required"/>
+            <form:errors path="name" cssClass="text-warning"/>
+        </fieldset>
+            <fieldset class="form-group">
+                <form:label path="iban">Iban primatelja:</form:label>
+                <form:input path="iban" type="text" class="form-control" required="required"/>
+                <form:errors path="iban" cssClass="text-warning"/>
+            </fieldset>
+        <fieldset class="form-group">
+            <form:label path="funds">Iznos:</form:label>
+            <form:input path="funds" type="integer" class="form-control" required="required"/>
+            <form:errors path="funds" cssClass="text-warning"/>
+        </fieldset>
 
-                <td >IBAN</td>
-                <td >Sredstva</td>
-            </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${users}" var="names">
-            <tr>
+        <button class="btn btn-success" type="submit">Posalji</button>
 
-                <td>${names.iban}</td>
-                <td>${names.funds}</td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-    <div>
+    </form:form>
+<div>
 
 <%@include file="common/footer.jspf"%>

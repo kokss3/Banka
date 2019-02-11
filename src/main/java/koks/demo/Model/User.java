@@ -1,15 +1,17 @@
 package koks.demo.Model;
 
+
 import javax.persistence.*;
 
 @Entity
 @Table
 public class User {
 
-    protected User() {
+    public User() {
+        super();
     }
 
-    public User(String name, String iban, Integer funds) {
+    public User( String name, String iban, Integer funds) {
         super();
         this.name = name;
         this.funds = funds;

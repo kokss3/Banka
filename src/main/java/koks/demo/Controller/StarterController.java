@@ -8,7 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,10 +19,14 @@ public class StarterController {
     @Autowired
     UserService service;
 
+    @Autowired
+    UserRepository repository;
+
 
     @GetMapping("/")
     public String runStart(ModelMap model){
         model.put("name", getLoggedInUserName());
+        model.put("users", getByName(getLoggedInUserName()));
         return "index";
     }
 
@@ -31,9 +36,21 @@ public class StarterController {
 
     @GetMapping(value="/transfer")
     public String runTransfer(ModelMap model){
+        model.addAttribute("users", new User());
+
         model.put("name", getLoggedInUserName());
-        model.put("users", getByName(getLoggedInUserName()));
         return "transfer";
+    }
+
+    @PostMapping(value = "/transfer")
+    public String sendFunds(ModelMap model, @ModelAttribute("users") User user, BindingResult result) {
+
+        if(result.hasErrors()){
+            return "index";
+        }
+        user.setName(getLoggedInUserName());
+        repository.save(user);
+        return "redirect:/index";
     }
 
     private String getLoggedInUserName(){
@@ -45,4 +62,5 @@ public class StarterController {
         }
         return principal.toString();
     }
+
 }
