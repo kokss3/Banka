@@ -36,14 +36,14 @@ public class StarterController {
 
     @GetMapping(value="/transfer")
     public String runTransfer(ModelMap model){
-        model.addAttribute("users", new User());
+        model.addAttribute("acc-holder", new User());
 
         model.put("name", getLoggedInUserName());
         return "transfer";
     }
 
     @PostMapping(value = "/transfer")
-    public String sendFunds(ModelMap model, @ModelAttribute("users") User user, BindingResult result) {
+    public String sendFunds(ModelMap model, @ModelAttribute("acc-holder") User user, BindingResult result) {
 
         if(result.hasErrors()){
             return "index";
