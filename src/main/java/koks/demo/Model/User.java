@@ -1,18 +1,17 @@
 package koks.demo.Model;
 
-
 import javax.persistence.*;
 
 @Entity
-@Table
 public class User {
 
     public User() {
         super();
     }
 
-    public User( String name, String iban, Integer funds) {
+    public User(Integer id, String name, String iban, Integer funds) {
         super();
+        this.id = id;
         this.name = name;
         this.funds = funds;
         this.iban = iban;
@@ -24,6 +23,15 @@ public class User {
     private String name;
     private Integer funds;
     private String iban;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Integer getId() {
         return id;

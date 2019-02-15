@@ -10,15 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
-/**
-Preostalo:
- -logika za prijenos sredstava
- -logika za duple unose u bazu: -nakon svake transakcije, povuči sve vrijednosti, zbrojiti, flushati duple entryje isejvati novi
- -Spring Security pohrana korisnika u bazu
- */
 
 @Controller
 public class StarterController {
@@ -28,7 +21,6 @@ public class StarterController {
 
     @Autowired
     UserRepository repository;
-
 
     @GetMapping("/")
     public String runStart(ModelMap model){
@@ -55,6 +47,10 @@ public class StarterController {
         if(result.hasErrors()){
             return "index";
         }
+
+
+
+
         service.saveInDB(user);
         return "redirect:/transfer";
     }
