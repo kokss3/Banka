@@ -8,8 +8,8 @@
         <thead>
         <tr style="width: 200px">
 
-            <td >IBAN</td>
-            <td >Sredstva</td>
+            <td>IBAN</td>
+            <td>Sredstva</td>
             <td>Posalji</td>
         </tr>
         </thead>
@@ -18,6 +18,7 @@
             <tr>
                 <td>${names.iban}</td>
                 <td>${names.funds}</td>
+                <td><a href="/transfer"/><button class="btn btn-success" type="submit" title="Posalji"></button></td>
             </tr>
         </c:forEach>
         </tbody>
