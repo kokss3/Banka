@@ -9,8 +9,8 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 @Repository
+@Transactional
 public class UserService {
 
     @Autowired
@@ -23,13 +23,18 @@ public class UserService {
     //removes multiple entries, and saves new entry, or updates old
     public void saveInDB(User user){
         List<User> temp = repository.findByNameAndIban(user.getName(),user.getIban());
-        repository.deleteInBatch(temp);
-        repository.save(fixMultipleEntries(user,temp));
+
+        if(temp.size()>1) {
+            temp.add(fixMultipleEntries(temp,user));
+            repository.deleteAllByNameAndIban(user.getName(),user.getIban());
+        }
+        repository.save(user);
     }
 
     //if there are multiple entries it takes funds and saves it in current user
-    public User fixMultipleEntries(User currentUser,List<User> multiple){
+    public User fixMultipleEntries(List<User> multiple,User currentUser){
         Integer funds =0;
+        System.out.println(multiple);
         for(User temp:multiple)
             funds += temp.getFunds();
 

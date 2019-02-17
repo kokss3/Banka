@@ -8,7 +8,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -29,6 +28,13 @@ public class StarterController {
         return "index";
     }
 
+    @GetMapping("/login")
+    public String login(ModelMap model){
+        model.put("name", getLoggedInUserName());
+
+        return "login";
+    }
+
     private List<User> getByName (String name){
         return service.getIban(name);
     }
@@ -42,18 +48,16 @@ public class StarterController {
     }
 
     @PostMapping("/transfer")
-    public String sendFunds(ModelMap model, @ModelAttribute("acc-holder") User user, BindingResult result) {
+    public String sendFunds(@ModelAttribute("acc-holder") User user) {
+        User loggedUser = repository.findByNameOrderByFundsAsc(getLoggedInUserName()).get(0);
 
-        if(result.hasErrors()){
-            return "index";
-        }
+        loggedUser.setFunds(loggedUser.getFunds()-user.getFunds());
 
-
-
-
+        service.saveInDB(loggedUser);
         service.saveInDB(user);
-        return "redirect:/transfer";
+        return "redirect:/";
     }
+
 
     private String getLoggedInUserName(){
         Object principal = SecurityContextHolder.getContext()

@@ -9,5 +9,8 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByNameOrderByFundsAsc(String namePerson);
     List<User> findByNameAndIban(String name, String iban);
+    void deleteAllByNameAndIban(String name, String iban);
+
+
 
 }

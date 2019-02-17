@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <div class="container">
-    <form:form method="post" modelAttribute="acc-holder">
+    <form:form method="post" modelAttribute="acc-holder" >
         <fieldset class="form-group">
             <form:label path="name">Ime primatelja:</form:label>
             <form:input path="name" type="text" class="form-control" required="required"/>
             <form:errors path="name" cssClass="text-warning"/>
         </fieldset>
-            <fieldset class="form-group">
+            <fieldset class="form-group" >
                 <form:label path="iban">Iban primatelja:</form:label>
                 <form:input path="iban" type="text" class="form-control" required="required"/>
                 <form:errors path="iban" cssClass="text-warning"/>
