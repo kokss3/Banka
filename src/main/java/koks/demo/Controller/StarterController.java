@@ -1,7 +1,6 @@
 package koks.demo.Controller;
 
 import koks.demo.Model.User;
-import koks.demo.Repository.UserRepository;
 import koks.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,9 +17,6 @@ public class StarterController {
     @Autowired
     UserService service;
 
-    @Autowired
-    UserRepository repository;
-
     @GetMapping("/")
     public String runStart(ModelMap model){
         model.put("name", getLoggedInUserName());
@@ -36,7 +32,7 @@ public class StarterController {
     }
 
     private List<User> getByName (String name){
-        return service.getIban(name);
+        return service.getListByName(name);
     }
 
     @GetMapping("/transfer")
@@ -49,15 +45,14 @@ public class StarterController {
 
     @PostMapping("/transfer")
     public String sendFunds(@ModelAttribute("acc-holder") User user) {
-        User loggedUser = repository.findByNameOrderByFundsAsc(getLoggedInUserName()).get(0);
+        User loggedUser = service.getListByName(getLoggedInUserName()).get(0);
 
-        loggedUser.setFunds(loggedUser.getFunds()-user.getFunds());
+        loggedUser.setFunds(-user.getFunds());
 
         service.saveInDB(loggedUser);
         service.saveInDB(user);
         return "redirect:/";
     }
-
 
     private String getLoggedInUserName(){
         Object principal = SecurityContextHolder.getContext()
