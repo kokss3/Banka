@@ -1,5 +1,6 @@
 package koks.demo.Controller;
 
+import koks.demo.Model.Account;
 import koks.demo.Model.User;
 import koks.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class StarterController {
     @GetMapping("/")
     public String runStart(ModelMap model){
         model.put("name", getLoggedInUserName());
-        model.put("users", getByName(getLoggedInUserName()));
+        model.put("users", getById();
         return "index";
     }
 
@@ -31,13 +32,13 @@ public class StarterController {
         return "login";
     }
 
-    private List<User> getByName (String name){
-        return service.getListByName(name);
+    private List<Account> getById (int id){
+        return service.getListById(id);
     }
 
     @GetMapping("/transfer")
     public String runTransfer(ModelMap model){
-        model.addAttribute("acc-holder", new User());
+        model.addAttribute("acc-holder", new Account());
 
         model.put("name", getLoggedInUserName());
         return "transfer";
@@ -45,9 +46,9 @@ public class StarterController {
 
     @PostMapping("/transfer")
     public String sendFunds(@ModelAttribute("acc-holder") User user) {
-        User loggedUser = service.getListByName(getLoggedInUserName()).get(0);
+        User loggedUser = service.getListById(getLoggedInUserName()).get(0);
 
-        loggedUser.setFunds(-user.getFunds());
+
 
         service.saveInDB(loggedUser);
         service.saveInDB(user);

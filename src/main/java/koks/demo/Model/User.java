@@ -1,6 +1,7 @@
 package koks.demo.Model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class User {
@@ -9,20 +10,27 @@ public class User {
         super();
     }
 
-    public User(Integer id, String name, String iban, Integer funds) {
-        super();
-        this.id = id;
-        this.name = name;
-        this.funds = funds;
-        this.iban = iban;
+    public User(String username, List<Account> accounts) {
+        this.username = username;
+        this.accounts = accounts;
+        setRealName();
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String name;
-    private Integer funds;
-    private String iban;
+    private String username;
+    private String realName;
+    private List<Account> accounts;
+    private List<AuthUser> credentials;
+
+    private void setRealName(){
+        this.realName = accounts.get(0).getRealName();
+    }
+
+    public String getRealName() {
+        return realName;
+    }
 
     public Integer getId() {
         return id;
@@ -32,38 +40,28 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public Integer getFunds() {
-        return funds;
+    public List<Account> getAccounts() {
+        return accounts;
     }
 
-    public void setFunds(Integer funds) {
-        this.funds = funds;
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
     }
 
-    public String getIban() {
-        return iban;
+    public List<AuthUser> getCredentials() {
+        return credentials;
     }
 
-    public void setIban(String iban) {
-        this.iban = iban;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", funds=" + funds +
-                ", iban='" + iban + '\'' +
-                '}';
+    public void setCredentials(List<AuthUser> credentials) {
+        this.credentials = credentials;
     }
 
     @Override

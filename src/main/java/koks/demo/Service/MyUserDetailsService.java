@@ -20,8 +20,8 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return new AuthUserPrincipal(
                 new AuthUser(
-                    repository.queryForUsername(username),
-                    repository.queryForPassword(username)
+                    repository.createUser(1).getUsername(),repository.createUser(1).getCredentials().get(0).getPassword()
+
                 )
         );
     }

@@ -1,5 +1,6 @@
 package koks.demo.Service;
 
+import koks.demo.Model.Account;
 import koks.demo.Model.User;
 import koks.demo.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ public class UserService {
     @Autowired
     UserRepository repository;
 
-    public List<User> getListByName(String name) {
-        return repository.getListByName(name);
+    public List<Account> getListById(int id) {
+        return repository.createUser(id).getAccounts();
     }
 
     //removes multiple entries, and saves new entry, or updates old

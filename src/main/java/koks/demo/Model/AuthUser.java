@@ -12,11 +12,20 @@ public class AuthUser {
     private String username;
     private String password;
 
-
+    public AuthUser() {
+    }
 
     public AuthUser(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUsername() {
