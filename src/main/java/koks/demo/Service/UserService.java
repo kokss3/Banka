@@ -20,8 +20,4 @@ public class UserService {
         return repository.createUser(id).getAccounts();
     }
 
-    //removes multiple entries, and saves new entry, or updates old
-    public void saveInDB(User user) {
-        repository.saveInDB(user);
-    }
 }

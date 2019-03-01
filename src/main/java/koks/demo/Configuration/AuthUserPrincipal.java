@@ -1,6 +1,5 @@
 package koks.demo.Configuration;
 
-import koks.demo.Model.AuthUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,7 +1,6 @@
 package koks.demo.Repository;
 
 import koks.demo.Model.Account;
-import koks.demo.Model.AuthUser;
 import koks.demo.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

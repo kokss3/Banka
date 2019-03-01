@@ -48,10 +48,6 @@ public class StarterController {
     public String sendFunds(@ModelAttribute("acc-holder") User user) {
         User loggedUser = service.getListById(getLoggedInUserName()).get(0);
 
-
-
-        service.saveInDB(loggedUser);
-        service.saveInDB(user);
         return "redirect:/";
     }
 
