@@ -17,19 +17,19 @@
 <div style="width: min-content" class="container">
 
     <h1>Login</h1>
-    <form username='f' action="login" method='POST'>
+    <form action="login" method='POST'>
         <table>
             <tr>
-                <td>User:</td>
-                <td><input type="text" username="username"> </td>
+                <td>Username:</td>
+                <td><input type="text" name="username" id="username"> </td>
             </tr>
 
             <tr>
                 <td>Password:</td>
-                <td><input type='password' username='password' /></td>
+                <td><input type='password' id="password" name='password' /></td>
             </tr>
             <tr>
-                <td><button class="btn btn-success" username="submit" type="submit" value="submit">Login</button></td>
+                <td><button class="btn btn-success"  username="submit" type="submit" value="submit">Login</button></td>
             </tr>
         </table>
     </form>

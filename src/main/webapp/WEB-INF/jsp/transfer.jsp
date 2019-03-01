@@ -3,15 +3,16 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@include file="common/header.jspf"%>
 <%@include file="common/navigation.jspf"%>
+
 <!DOCTYPE html>
 <meta username="viewport" content="width=device-width, initial-scale=1">
 
 <div class="container">
     <form:form method="post" modelAttribute="acc-holder" >
         <fieldset class="form-group">
-            <form:label path="username">Ime primatelja:</form:label>
-            <form:input path="username" type="text" class="form-control" required="required"/>
-            <form:errors path="username" cssClass="text-warning"/>
+            <form:label path="realName">Ime primatelja:</form:label>
+            <form:input path="realName" type="text" class="form-control" required="required"/>
+            <form:errors path="realName" cssClass="text-warning"/>
         </fieldset>
             <fieldset class="form-group" >
                 <form:label path="iban">Iban primatelja:</form:label>

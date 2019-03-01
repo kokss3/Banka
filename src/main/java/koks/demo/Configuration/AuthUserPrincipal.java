@@ -1,5 +1,7 @@
 package koks.demo.Configuration;
 
+import koks.demo.Model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,9 +11,10 @@ import java.util.Collections;
 
 public class AuthUserPrincipal implements UserDetails {
 
-    private AuthUser user;
+    @Autowired
+    private User user;
 
-    public AuthUserPrincipal(AuthUser user) {
+    public AuthUserPrincipal(User user) {
         this.user = user;
     }
 

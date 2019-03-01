@@ -8,6 +8,11 @@ public class User {
         super();
     }
 
+    public User(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
+
     public User(String username, List<Account> accounts) {
         this.username = username;
         this.accounts = accounts;
@@ -18,6 +23,7 @@ public class User {
     private String password;
     private String realName;
     private List<Account> accounts;
+    private List<String> role;
 
     public Integer getId() {
         return id;
@@ -57,5 +63,25 @@ public class User {
 
     public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
+    }
+
+    public List<String> getRole() {
+        return role;
+    }
+
+    public void setRole(List<String> role) {
+        this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", realName='" + realName + '\'' +
+                ", accounts=" + accounts +
+                ", role=" + role +
+                '}';
     }
 }

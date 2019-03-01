@@ -3,19 +3,18 @@ package koks.demo.Model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
 public class Account {
 
     public Account(){
         super();
     }
 
-    public Account(String iban, double funds) {
+    public Account(String realName, String iban, double funds) {
+        this.realName = realName;
         this.iban = iban;
         this.funds = funds;
     }
 
-    @Id
     private int id;
     private String realName;
     private String iban;
@@ -51,5 +50,15 @@ public class Account {
 
     public void setFunds(double funds) {
         this.funds = funds;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", realName='" + realName + '\'' +
+                ", iban='" + iban + '\'' +
+                ", funds=" + funds +
+                '}';
     }
 }

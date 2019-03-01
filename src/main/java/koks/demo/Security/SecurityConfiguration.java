@@ -1,7 +1,6 @@
 package koks.demo.Security;
 
 import koks.demo.Service.MyUserDetailsService;
-import org.hibernate.internal.log.DeprecationLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

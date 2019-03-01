@@ -4,6 +4,7 @@ import koks.demo.Model.Account;
 import koks.demo.Model.User;
 import koks.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -19,36 +20,33 @@ public class StarterController {
     UserService service;
 
     @GetMapping("/")
-    public String runStart(ModelMap model){
-        model.put("name", getLoggedInUserName());
-        model.put("users", getById();
-        return "index";
-    }
-
-    @GetMapping("/login")
-    public String login(ModelMap model){
-        model.put("name", getLoggedInUserName());
-
+    public String runStart(){
         return "login";
     }
 
-    private List<Account> getById (int id){
-        return service.getListById(id);
+    @Secured({"ROLE_USER","ROLE_ADMIN"})
+    @GetMapping("/index")
+    public String login(ModelMap model){
+        List<Account> accounts = service.getAccountListById(service.getId(getLoggedInUserName()));
+
+        model.addAttribute("users",accounts);
+        model.addAttribute("username",accounts.get(0).getRealName());
+        return "index";
     }
 
+    @Secured("ROLE_USER")
     @GetMapping("/transfer")
     public String runTransfer(ModelMap model){
-        model.addAttribute("acc-holder", new Account());
+        List<Account> accounts = service.getAccountListById(service.getId(getLoggedInUserName()));
 
-        model.put("name", getLoggedInUserName());
+        model.addAttribute("acc-holder", accounts.get(0));
+        model.put("username", accounts.get(0).getRealName());
         return "transfer";
     }
 
     @PostMapping("/transfer")
     public String sendFunds(@ModelAttribute("acc-holder") User user) {
-        User loggedUser = service.getListById(getLoggedInUserName()).get(0);
-
-        return "redirect:/";
+        return "redirect:/index";
     }
 
     private String getLoggedInUserName(){
