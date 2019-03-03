@@ -1,8 +1,5 @@
 package koks.demo.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
 public class Account {
 
     public Account(){

@@ -5,8 +5,6 @@ import koks.demo.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +16,7 @@ public class UserRepository {
 
     public Integer getIdformLoggedUser(String username){
         String query = "select id from auth_user where username=?;";
-
-        int id = template.queryForObject(query, new Object[]{username}, Integer.class);
-        return id;
+        return template.queryForObject(query, new Object[]{username}, Integer.class);
     }
 
     public List<Account> getAccountListById(int id){
@@ -53,4 +49,28 @@ public class UserRepository {
         String queryForPassword = "select auth_user.password from auth_user where id=?;";
         return template.queryForObject(queryForPassword, new Object[]{id}, String.class);
     }
+
+    public List<User> findAll() {
+        List<Integer> ids = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+
+        ids.addAll(template.query("select id from auth_user;",
+                (rs, rowNum) -> rs.getInt("id")));
+        for(Integer id: ids) {
+            users.add(getUserbyId(id));
+            System.out.println(id);
+        }
+        return users;
+    }
+
+    public User getUserbyId(int id){
+        User user = new User();
+        user.setId(id);
+        user.setAccounts(getAccountListById(id));
+        user.setUsername(getUsernameById(id));
+        user.setPassword(getPasswordById(id));
+        user.setRoles(getRolesById(id));
+        return user;
+    }
+
 }

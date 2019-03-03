@@ -4,43 +4,55 @@ import koks.demo.Service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private MyUserDetailsService userDetailsService;
+    MyUserDetailsService userDetailsService;
+
+    // bcrypt enkriptirana "nema"
+    // $2a$10$XlVJzFwouDvTgmu2548xo.8MUsqOmvnhZmnYntJE5WKWC2Wdj1Mbu
 
     @Autowired
-    DataSource dataSource;
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
-    @SuppressWarnings("deprecation")
+        // Setting Service to find User in the database.
+        // And Setting PassswordEncoder
+        auth.userDetailsService(userDetailsService);
+    }
+
     @Bean
-    public AuthenticationProvider authProvider(){
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
-        return provider;
+    public BCryptPasswordEncoder passwordEncoder() {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        return bCryptPasswordEncoder;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .authorizeRequests().antMatchers("/login").permitAll()
+                .csrf()
+                .disable()
+                .authorizeRequests()
+                .antMatchers("/login")
+                .permitAll()
+                .antMatchers("/admin")
+                .access("hasAnyRole('ADMIN','USER')")
                 .and()
                 .authorizeRequests()
-                .and()
-                .formLogin().loginPage("/login").permitAll();
-
+                .antMatchers("/admin")
+                .access("hasAnyRole('ADMIN','USER')")
+                .and().formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/index")
+                .usernameParameter("username")
+                .passwordParameter("password");
     }
 }

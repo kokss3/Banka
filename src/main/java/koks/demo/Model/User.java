@@ -4,7 +4,7 @@ import java.util.List;
 
 public class User {
 
-    public User() {
+    public User(){
         super();
     }
 
@@ -18,12 +18,18 @@ public class User {
         this.accounts = accounts;
     }
 
+    public User(Integer id, List<Account> accounts, List<String> roles) {
+        this.id = id;
+        this.accounts = accounts;
+        this.roles = roles;
+    }
+
     private Integer id;
     private String username;
     private String password;
-    private String realName;
+
     private List<Account> accounts;
-    private List<String> role;
+    private List<String> roles;
 
     public Integer getId() {
         return id;
@@ -49,14 +55,6 @@ public class User {
         this.password = password;
     }
 
-    public String getRealName() {
-        return realName;
-    }
-
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
-
     public List<Account> getAccounts() {
         return accounts;
     }
@@ -65,12 +63,12 @@ public class User {
         this.accounts = accounts;
     }
 
-    public List<String> getRole() {
-        return role;
+    public List<String> getRoles() {
+        return roles;
     }
 
-    public void setRole(List<String> role) {
-        this.role = role;
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 
     @Override
@@ -79,9 +77,8 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", realName='" + realName + '\'' +
                 ", accounts=" + accounts +
-                ", role=" + role +
+                ", roles=" + roles +
                 '}';
     }
 }

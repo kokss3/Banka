@@ -24,6 +24,15 @@ public class StarterController {
         return "login";
     }
 
+    @GetMapping("/admin")
+    public String adminStuff(ModelMap model){
+        int id = service.getId(getLoggedInUserName());
+        model.addAttribute("username",service.getAccountListById(id).get(0).getRealName());
+
+        model.addAttribute("c_user", service.getAll());
+        return "admin";
+    }
+
     @Secured({"ROLE_USER","ROLE_ADMIN"})
     @GetMapping("/index")
     public String login(ModelMap model){

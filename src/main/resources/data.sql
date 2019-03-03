@@ -10,7 +10,7 @@ create table role_user
 (
   id integer(11) not null auto_increment,
   user_id integer(11),
-  role varchar(20),
+  roles varchar(20),
   primary key (id),
   foreign key (user_id) references auth_user(id)
 );
@@ -32,7 +32,7 @@ insert into auth_user (username, password) values
   ('pero','nema'),
   ('goran','nema');
 
-insert into role_user (user_id, role) values
+insert into role_user (user_id, roles) values
   (1,'ADMIN'),
   (1,'USER'),
   (2,'USER'),

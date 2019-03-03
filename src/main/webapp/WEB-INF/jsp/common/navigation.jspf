@@ -1,4 +1,4 @@
-<nav role="navigation" class="navbar navbar-default">
+<nav roles="navigation" class="navbar navbar-default">
     <div class="">
         <a class="navbar-brand">${username}</a>
     </div>
