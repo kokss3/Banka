@@ -37,8 +37,12 @@ public class StarterController {
     @Secured({"ROLE_USER","ROLE_ADMIN"})
     @GetMapping(value = "/index")
     public String login(ModelMap model){
+        //System.out.println(id);
         List<Account> accounts = service.getAccountListById(service.getId(getLoggedInUserName()));
+        model.addAttribute("username",accounts.get(0).getRealName());
+
         model.addAttribute("users", accounts);
+
         return "index";
     }
 

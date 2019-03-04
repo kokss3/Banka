@@ -19,7 +19,7 @@
                 <td>${names.iban}</td>
                 <td>${names.funds}</td>
                 <td>
-                    <button class="btn btn-success" type="hidden" value="${names.id}" name="id"
+                    <button class="btn btn-success" type="hidden" value="${names.id}" name="ids"
                             onclick="window.location='/transfer'">Posalji</button>
                 </td>
             </tr>

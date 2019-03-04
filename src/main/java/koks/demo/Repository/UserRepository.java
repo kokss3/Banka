@@ -65,7 +65,6 @@ public class UserRepository {
 
     public void updateFunds(Account acc){
         String updateString = "update user_accounts set funds = funds + ? where user_accounts.iban=?";
-
         template.update(updateString, acc.getFunds(), acc.getIban());
     }
 
