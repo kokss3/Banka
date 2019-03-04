@@ -48,7 +48,6 @@ public class UserRepository {
         user.setUsername(template.queryForObject(queryForUserName, new Object[]{id}, String.class));
         user.setPassword(template.queryForObject(queryForPassword, new Object[]{id}, String.class));
 
-        System.out.println(user);
         return user;
     }
 

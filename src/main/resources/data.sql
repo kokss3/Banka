@@ -27,10 +27,10 @@ create table user_accounts
 );
 
 insert into auth_user (username, password) values
-  ('koks','nema'),
-  ('marko','nema'),
-  ('pero','nema'),
-  ('goran','nema');
+  ('koks','$2a$10$XlVJzFwouDvTgmu2548xo.8MUsqOmvnhZmnYntJE5WKWC2Wdj1Mbu'),
+  ('marko','$2a$10$XlVJzFwouDvTgmu2548xo.8MUsqOmvnhZmnYntJE5WKWC2Wdj1Mbu'),
+  ('pero','$2a$10$XlVJzFwouDvTgmu2548xo.8MUsqOmvnhZmnYntJE5WKWC2Wdj1Mbu'),
+  ('goran','$2a$10$XlVJzFwouDvTgmu2548xo.8MUsqOmvnhZmnYntJE5WKWC2Wdj1Mbu');
 
 insert into role_user (user_id, roles) values
   (1,'ADMIN'),
