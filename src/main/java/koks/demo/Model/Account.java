@@ -6,6 +6,13 @@ public class Account {
         super();
     }
 
+    public Account(int id, String realName, String iban, double funds) {
+        this.id = id;
+        this.realName = realName;
+        this.iban = iban;
+        this.funds = funds;
+    }
+
     public Account(String realName, String iban, double funds) {
         this.realName = realName;
         this.iban = iban;

@@ -24,20 +24,20 @@ public class UserRepository {
         User user = new User();
 
         //declare queries
-        String queryForAccounts = "select user_accounts.iban, user_accounts.funds, user_accounts.real_name " +
-                                    "from user_accounts inner join auth_user " +
+        String queryForAccounts = "select user_accounts.id, user_accounts.iban, user_accounts.funds, " +
+                                    "user_accounts.real_name from user_accounts inner join auth_user " +
                                     "on user_accounts.user_id = auth_user.id where auth_user.id=?;";
         String queryForUserName = "select auth_user.username from auth_user where id=?;";
         String queryForPassword= "select auth_user.password from auth_user where id=?;";
         String queryForUserRoles = "select role_user.role from role_user inner join auth_user " +
-                                        "on role_user.user_id = auth_user.id where auth_user.id=?;";
+                                    "on role_user.user_id = auth_user.id where auth_user.id=?;";
 
         //get id
         user.setId(id);
 
         //get list of accounts
         user.setAccounts(template.query(queryForAccounts,new Object[]{ id }, (rs, rowNum) ->
-                new Account(rs.getString("real_name"),
+                new Account(rs.getInt("id"),rs.getString("real_name"),
                         rs.getString("iban"), rs.getDouble("funds"))));
 
         //get roles
@@ -62,4 +62,11 @@ public class UserRepository {
         }
         return users;
     }
+
+    public void updateFunds(Account acc){
+        String updateString = "update user_accounts set funds = funds + ? where user_accounts.iban=?";
+
+        template.update(updateString, acc.getFunds(), acc.getIban());
+    }
+
 }

@@ -29,4 +29,8 @@ public class UserService {
     public List<User> getAll() {
         return repository.findAll();
     }
+
+    public void saveAccount(Account acc){
+        repository.updateFunds(acc);
+    }
 }
