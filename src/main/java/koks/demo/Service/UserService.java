@@ -11,30 +11,19 @@ import java.util.List;
 @Service
 public class UserService {
 
-    User user = new User();
-
     @Autowired
     UserRepository repository;
 
-    private User getCompleteUser(Integer id){
-        user.setId(id);
-        user.setUsername(repository.getUsernameById(id));
-        user.setPassword(repository.getPasswordById(id));
-        user.setAccounts(repository.getAccountListById(id));
-        user.setRoles(repository.getRolesById(id));
-        return user;
-    }
-
     public int getId(String username){
-        return repository.getIdformLoggedUser(username);
+        return repository.getUser(username).getId();
     }
 
     public List<String> getRoles(int id){
-        return repository.getRolesById(id);
+        return repository.getUser(id).getRoles();
     }
 
     public List<Account> getAccountListById(int id) {
-        return repository.getAccountListById(id);
+        return repository.getUser(id).getAccounts();
     }
 
     public List<User> getAll() {

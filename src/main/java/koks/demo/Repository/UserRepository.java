@@ -14,40 +14,42 @@ public class UserRepository {
     @Autowired
     JdbcTemplate template;
 
-    public Integer getIdformLoggedUser(String username){
-        String query = "select id from auth_user where username=?;";
-        return template.queryForObject(query, new Object[]{username}, Integer.class);
+    //overloading methods
+    public User getUser(String username) {
+        String queryForId = "select id from auth_user where username=?;";
+        return getUser(template.queryForObject(queryForId, new Object[]{username}, Integer.class));
     }
 
-    public List<Account> getAccountListById(int id){
-        List<Account> acc = new ArrayList<>();
-        String queryForAccounts =
-                "select user_accounts.iban, user_accounts.funds, user_accounts.real_name " +
-                "from user_accounts inner join auth_user on user_accounts.user_id = auth_user.id where auth_user.id=?;";
-        acc.addAll(template.query(
-                queryForAccounts,new Object[]{ id }, (rs, rowNum) ->
-                        new Account(rs.getString("real_name"),
-                                rs.getString("iban"), rs.getDouble("funds"))));
-        return acc;
-    }
+    public User getUser(int id){
+        User user = new User();
 
-    public List<String> getRolesById(int id){
-        List<String> roles = new ArrayList<>();
-        String queryForAccounts =
-                "select role_user.role from role_user inner join auth_user " +
-                        "on role_user.user_id = auth_user.id where auth_user.id=?;";
-        return template.query(queryForAccounts, new Object[]{ id },
-                (rs, rowNum) -> rs.getString("role"));
-    }
-
-    public String getUsernameById(int id){
+        //declare queries
+        String queryForAccounts = "select user_accounts.iban, user_accounts.funds, user_accounts.real_name " +
+                                    "from user_accounts inner join auth_user " +
+                                    "on user_accounts.user_id = auth_user.id where auth_user.id=?;";
         String queryForUserName = "select auth_user.username from auth_user where id=?;";
-        return template.queryForObject(queryForUserName,new Object[]{id},String.class);
-    }
+        String queryForPassword= "select auth_user.password from auth_user where id=?;";
+        String queryForUserRoles = "select role_user.role from role_user inner join auth_user " +
+                                        "on role_user.user_id = auth_user.id where auth_user.id=?;";
 
-    public String getPasswordById(int id) {
-        String queryForPassword = "select auth_user.password from auth_user where id=?;";
-        return template.queryForObject(queryForPassword, new Object[]{id}, String.class);
+        //get id
+        user.setId(id);
+
+        //get list of accounts
+        user.setAccounts(template.query(queryForAccounts,new Object[]{ id }, (rs, rowNum) ->
+                new Account(rs.getString("real_name"),
+                        rs.getString("iban"), rs.getDouble("funds"))));
+
+        //get roles
+        user.setRoles(template.query(queryForUserRoles, new Object[]{ id },
+                (rs, rowNum) -> rs.getString("role")));
+
+        //get username and password
+        user.setUsername(template.queryForObject(queryForUserName, new Object[]{id}, String.class));
+        user.setPassword(template.queryForObject(queryForPassword, new Object[]{id}, String.class));
+
+        System.out.println(user);
+        return user;
     }
 
     public List<User> findAll() {
@@ -57,20 +59,8 @@ public class UserRepository {
         ids.addAll(template.query("select id from auth_user;",
                 (rs, rowNum) -> rs.getInt("id")));
         for(Integer id: ids) {
-            users.add(getUserbyId(id));
-            System.out.println(id);
+            users.add(getUser(id));
         }
         return users;
     }
-
-    public User getUserbyId(int id){
-        User user = new User();
-        user.setId(id);
-        user.setAccounts(getAccountListById(id));
-        user.setUsername(getUsernameById(id));
-        user.setPassword(getPasswordById(id));
-        user.setRoles(getRolesById(id));
-        return user;
-    }
-
 }

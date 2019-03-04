@@ -21,16 +21,17 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        int id = repository.getIdformLoggedUser(username);
+        int id = repository.getUser(username).getId();
         List<GrantedAuthority> grantList = new ArrayList<>();
-        for (String role : repository.getRolesById(id)) {
+        for (String role : repository.getUser(id).getRoles()) {
+
             // ROLE_USER, ROLE_ADMIN,..
             GrantedAuthority authority = new SimpleGrantedAuthority(role);
             grantList.add(authority);
         }
 
-        UserDetails userDetails = (UserDetails) new User(repository.getUsernameById(id), //
-                repository.getPasswordById(id), grantList);
+        UserDetails userDetails = new User(repository.getUser(id).getUsername(), //
+                repository.getUser(id).getPassword(), grantList);
         return userDetails;
     }
 }
