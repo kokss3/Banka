@@ -14,12 +14,20 @@ public class UserRepository {
     @Autowired
     JdbcTemplate template;
 
-    //overloading methods
+    ///OVERLOADING METHODS
+    //getUser by account-iban
+    public User getUser(Account acc) {
+        String queryForUserId = "select user_id from user_accounts where iban=?;";
+        return getUser(template.queryForObject(queryForUserId, new Object[]{acc.getIban()}, Integer.class));
+    }
+
+    //getUser by username
     public User getUser(String username) {
         String queryForId = "select id from auth_user where username=?;";
         return getUser(template.queryForObject(queryForId, new Object[]{username}, Integer.class));
     }
 
+    //getUser by id
     public User getUser(int id){
         User user = new User();
 
@@ -51,6 +59,7 @@ public class UserRepository {
         return user;
     }
 
+    //get all users in database
     public List<User> findAll() {
         List<Integer> ids = new ArrayList<>();
         List<User> users = new ArrayList<>();
@@ -63,9 +72,15 @@ public class UserRepository {
         return users;
     }
 
-    public void updateFunds(Account acc){
+    //update funds by account, by iban
+    public void updateFundsByIban(Account acc){
         String updateString = "update user_accounts set funds = funds + ? where user_accounts.iban=?";
         template.update(updateString, acc.getFunds(), acc.getIban());
     }
 
+    //update funds by account by Holder name
+    public void updateFundsByRealName(Account acc){
+        String updateString = "update user_accounts set funds = funds + ? where user_accounts.real_name=?";
+        template.update(updateString, acc.getFunds(), acc.getRealName());
+    }
 }

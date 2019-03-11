@@ -6,25 +6,19 @@ public class Account {
         super();
     }
 
-    public Account(int id, String realName, String iban, double funds) {
+    public Account(Integer id, String realName, String iban, double funds) {
         this.id = id;
         this.realName = realName;
         this.iban = iban;
         this.funds = funds;
     }
 
-    public Account(String realName, String iban, double funds) {
-        this.realName = realName;
-        this.iban = iban;
-        this.funds = funds;
-    }
-
-    private int id;
+    private Integer id;
     private String realName;
     private String iban;
     private double funds;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

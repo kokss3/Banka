@@ -18,6 +18,10 @@ public class UserService {
         return repository.getUser(username).getId();
     }
 
+    public User getUserByAccount(Account acc){
+        return repository.getUser(acc);
+    }
+
     public List<String> getRoles(int id){
         return repository.getUser(id).getRoles();
     }
@@ -31,6 +35,6 @@ public class UserService {
     }
 
     public void saveAccount(Account acc){
-        repository.updateFunds(acc);
+        repository.updateFundsByIban(acc);
     }
 }

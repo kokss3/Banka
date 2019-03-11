@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
 <%@include file="common/header.jspf"%>
 <%@include file="common/navigation.jspf"%>
 
@@ -16,11 +17,14 @@
 
         <c:forEach items="${users}" var="names">
             <tr>
+
                 <td>${names.iban}</td>
                 <td>${names.funds}</td>
                 <td>
-                    <button class="btn btn-success" type="hidden" value="${names.id}" name="ids"
-                            onclick="window.location='/transfer'">Posalji</button>
+                    <form action="/transfer" method="GET">
+                        <button class="btn btn-success" name="ibans" value="${names.id}"
+                                type="submit" onclick="location.href='/transfer'">Posalji</button>
+                    </form>
                 </td>
             </tr>
         </c:forEach>

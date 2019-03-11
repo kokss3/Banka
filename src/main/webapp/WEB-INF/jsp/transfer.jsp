@@ -8,22 +8,24 @@
 <meta username="viewport" content="width=device-width, initial-scale=1">
 
 <div class="container">
-    <form:form method="post" modelAttribute="acc-holder" >
-        <fieldset class="form-group">
+    <form:form method="post" modelAttribute="acc-holder">
+         <fieldset class="form-group">
             <form:label path="realName">Ime primatelja:</form:label>
             <form:input path="realName" type="text" class="form-control" required="required"/>
             <form:errors path="realName" cssClass="text-warning"/>
-        </fieldset>
-            <fieldset class="form-group" >
-                <form:label path="iban">Iban primatelja:</form:label>
-                <form:input path="iban" type="text" class="form-control" required="required"/>
-                <form:errors path="iban" cssClass="text-warning"/>
-            </fieldset>
-        <fieldset class="form-group">
+         </fieldset>
+
+         <fieldset class="form-group">
+             <form:label path="iban">Iban primatelja:</form:label>
+             <form:input path="iban" type="text" class="form-control" required="required"/>
+             <form:errors path="iban" cssClass="text-warning"/>
+         </fieldset>
+
+         <fieldset class="form-group">
             <form:label path="funds">Iznos:</form:label>
             <form:input path="funds" type="integer" class="form-control" required="required"/>
             <form:errors path="funds" cssClass="text-warning"/>
-        </fieldset>
+         </fieldset>
 
         <button class="btn btn-success" type="submit">Posalji</button>
 
