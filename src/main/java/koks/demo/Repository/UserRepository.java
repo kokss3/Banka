@@ -72,6 +72,32 @@ public class UserRepository {
         return users;
     }
 
+    //save new User to DB
+    public void saveUserToDB(User user, int status){
+        String account = "INSERT into user_accounts (user_id, iban, funds, real_name) values (?,?,?,?);";
+        String userRoles = "INSERT into role_user (user_id, role) values (?,?);";
+        String userCreds = "INSERT into user_accounts (id, username, password) values (?,?,?);";
+        Account acc = user.getAccounts().get(0);
+        switch (status){
+            case 1: //save username password
+                template.update(userCreds, user.getId(), user.getUsername(), user.getPassword());
+                break;
+
+            case 2: //save role
+                for (String roles:user.getRoles()) template.update(userRoles, user.getId(), roles);
+                break;
+
+            case 3: //save account
+                template.update(account, user.getId(), acc.getIban(), acc.getFunds(), acc.getRealName());
+                break;
+
+            default: //save whole user
+                template.update(userCreds, user.getId(), user.getUsername(), user.getPassword());
+                for (String roles:user.getRoles()) template.update(userRoles, user.getId(), roles);
+                template.update(account, user.getId(), acc.getIban(), acc.getFunds(), acc.getRealName());
+        }
+    }
+
     //update funds by account, by iban
     public void updateFundsByIban(Account acc){
         String updateString = "update user_accounts set funds = funds + ? where user_accounts.iban=?";
