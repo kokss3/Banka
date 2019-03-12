@@ -1,4 +1,5 @@
 <nav roles="navigation" class="navbar navbar-default">
+
     <div class="">
         <a class="navbar-brand">${username}</a>
     </div>
@@ -6,6 +7,10 @@
         <ul class="nav navbar-nav">
             <li class="active"><a href="/index">Home</a></li>
             <li class="active"><a href="/transfer">Prijenos</a></li>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <li class="active"><a href="/admin">Administrator</a></li>
+            </sec:authorize>
+
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="/logout">Logout</a></li>

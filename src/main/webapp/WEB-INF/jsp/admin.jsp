@@ -24,7 +24,7 @@
                     <td>${acc.realName}</td>
                     <td>${acc.iban}</td>
                     <td>${acc.funds}</td>
-                    <td><a href="/transfer"/><button class="btn btn-success" type="submit" title="Posalji"></button></td>
+                    <td><a href="/transfer"/><button class="btn btn-success" type="submit" title="Posalji">Obrisi</button></td>
                 </tr>
                     </c:forEach>
                 </tr>

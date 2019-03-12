@@ -33,16 +33,10 @@ public class MyUserDetailsService implements UserDetailsService {
         for (String role : roleRepositoryImpl.getRolesById(id)) {
             System.out.println(role);
 
-            // ROLE_USER, ROLE_ADMIN,..
-            GrantedAuthority authority = new SimpleGrantedAuthority(role);
-            grantList.add(authority);
+            grantList.add(new SimpleGrantedAuthority(role));
         }
 
-        UserDetails userDetails = new User(userRepository.getUser(id).getUsername(), //
+        return new User(userRepository.getUser(id).getUsername(),
                 userRepository.getUser(id).getPassword(), grantList);
-        return userDetails;
     }
-
-
-
 }

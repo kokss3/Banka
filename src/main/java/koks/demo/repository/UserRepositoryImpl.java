@@ -11,10 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class UserRepositoryImpl implements UserRepository, AccountRepository {
+public class UserRepositoryImpl implements UserRepository {
 
     @Autowired
     JdbcTemplate template;
+
+    @Autowired
+    AccountRepositoryImpl accountRepository;
 
     ///OVERLOADING METHODS
     //getUser by account-iban
@@ -74,6 +77,14 @@ public class UserRepositoryImpl implements UserRepository, AccountRepository {
                         rs.getString("username"),
                         rs.getString("password"))
         ));
+
+        for(int i = 0; i<user.size();i++){
+            List<Account> acc = accountRepository.findAccountListById(user.get(i).getId());
+            user.get(i).setAccounts(acc);
+            System.out.println(acc);
+        }
+        System.out.println(user);
+
         return user;
     }
 
@@ -84,13 +95,7 @@ public class UserRepositoryImpl implements UserRepository, AccountRepository {
         template.update(userCreds, user.getId(), user.getUsername(), user.getPassword());
     }
 
-    @Override
-    public List<Account> findAccountListById(int id) {
-        return null;
-    }
-
     //update funds by account, by iban
-    @Override
     public void updateFundsByAccount(Account acc){
         String updateString = "update user_accounts set funds = funds + ? where user_accounts.iban=?";
         template.update(updateString, acc.getFunds(), acc.getIban());

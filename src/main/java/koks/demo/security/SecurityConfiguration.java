@@ -18,16 +18,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     MyUserDetailsService userDetailsService;
 
-    // bcrypt enkriptirana "nema"
+    // bcrypt enkriptirana "nema" ->
     // $2a$10$XlVJzFwouDvTgmu2548xo.8MUsqOmvnhZmnYntJE5WKWC2Wdj1Mbu
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-
+        System.out.println(userDetailsService);
         // Setting service to find User in the database.
         // And Setting PassswordEncoder
-        //TODO Nedostaje ti password encoder -> .passwordEncoder(passwordEncoder()); pa login ne bi trebao raditi jer u bazi imaš enkriptirane lozinke
-        auth.userDetailsService(userDetailsService);
+        //TODO Nedostaje ti password encoder -> .passwordEncoder(passwordEncoder());
+        // pa login ne bi trebao raditi jer u bazi imaš enkriptirane lozinke
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Bean
