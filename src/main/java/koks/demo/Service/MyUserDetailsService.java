@@ -23,6 +23,15 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     RoleRepository roleRepository;
 
+    //TODO Ovdje prvo zoveš getUser(username) što vraća samo ID od usera
+    /*
+    Prvo - treba paziti na imena metoda, ako tražiš usera u UserRepositoriju po username-u metoda se treba zvati findByUsername(username)
+    i trebala bi vraćati cijelog usera da ne moraš još kasnije zvati ponovno nešto
+    Pogledaj komentar u data.sql -> nije ti dobra struktura baze tj. relacija između rola i usera
+    Ako želiš pronaći role od korisnika, to bi se trebalo raditi u repozitoriju od rola (svaka tablica bi trebala imati svoj repozitorij)
+    znači imat ćeš RoleRepository u kojem je metoda findAllByUserId(userId) koja vraća listu rola od usera
+     */
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         int id = repository.getUser(username).getId();
