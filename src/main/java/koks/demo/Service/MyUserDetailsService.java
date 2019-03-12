@@ -1,6 +1,7 @@
 package koks.demo.Service;
 
-import koks.demo.Repository.UserRepository;
+import koks.demo.Repository.RoleRepository;
+import koks.demo.Repository.UserRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,13 +18,16 @@ import java.util.List;
 public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
-    UserRepository repository;
+    UserRepositoryImpl repository;
+
+    @Autowired
+    RoleRepository roleRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         int id = repository.getUser(username).getId();
         List<GrantedAuthority> grantList = new ArrayList<>();
-        for (String role : repository.getUser(id).getRoles()) {
+        for (String role : roleRepository.getRolesById(id)) {
 
             // ROLE_USER, ROLE_ADMIN,..
             GrantedAuthority authority = new SimpleGrantedAuthority(role);

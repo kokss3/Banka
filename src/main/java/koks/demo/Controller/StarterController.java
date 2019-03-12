@@ -1,19 +1,14 @@
 package koks.demo.Controller;
 
 import koks.demo.Model.Account;
-import koks.demo.Model.User;
-import koks.demo.Service.UserService;
+import koks.demo.Service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 
@@ -21,7 +16,7 @@ import java.util.*;
 public class StarterController {
 
     @Autowired
-    UserService service;
+    UserServiceImpl service;
 
     @GetMapping("/")
     public String runStart(){

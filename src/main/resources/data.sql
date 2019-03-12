@@ -6,15 +6,6 @@ create table auth_user
   primary key (id)
 );
 
-create table role_user
-(
-  id integer(11) not null auto_increment,
-  user_id integer(11),
-  roles varchar(20),
-  primary key (id),
-  foreign key (user_id) references auth_user(id)
-);
-
 create table user_accounts
 (
   id integer(11) not null auto_increment,
@@ -26,18 +17,31 @@ create table user_accounts
   foreign key (user_id) references auth_user(id)
 );
 
+create table role_user
+(
+  id integer(11) not null auto_increment,
+  user_id integer(11),
+  roles varchar(20),
+  primary key (id),
+  foreign key (user_id) references auth_user(id)
+);
+
+create table user_roles
+(
+  id integer(11) not null auto_increment,
+  user_id integer(11),
+  role_id integer(11),
+  primary key (id),
+  foreign key (role_id) references role_user(id),
+  foreign key (user_id) references auth_user(id)
+);
+
+
 insert into auth_user (username, password) values
   ('koks','$2a$10$XlVJzFwouDvTgmu2548xo.8MUsqOmvnhZmnYntJE5WKWC2Wdj1Mbu'),
   ('marko','$2a$10$XlVJzFwouDvTgmu2548xo.8MUsqOmvnhZmnYntJE5WKWC2Wdj1Mbu'),
   ('pero','$2a$10$XlVJzFwouDvTgmu2548xo.8MUsqOmvnhZmnYntJE5WKWC2Wdj1Mbu'),
   ('goran','$2a$10$XlVJzFwouDvTgmu2548xo.8MUsqOmvnhZmnYntJE5WKWC2Wdj1Mbu');
-
-insert into role_user (user_id, roles) values
-  (1,'ADMIN'),
-  (1,'USER'),
-  (2,'USER'),
-  (3,'USER'),
-  (4,'USER');
 
 insert into user_accounts (user_id, iban, funds, real_name) values
   (1,'HR8888010051550200001','17500','Koks'),
@@ -48,3 +52,16 @@ insert into user_accounts (user_id, iban, funds, real_name) values
   (3,'HR8888010051550200006','1500','Pero'),
   (3,'HR8888010051550200007','500','Pero'),
   (4,'HR8888010051550200008','2000','Goran');
+
+insert into role_user (user_id, roles) values
+(1,'ADMIN'),
+(1,'USER'),
+(2,'USER'),
+(3,'USER'),
+(4,'USER');
+
+insert into user_roles (user_id, role_id) values
+(1,1),
+(2,2),
+(3,2),
+(4,2);

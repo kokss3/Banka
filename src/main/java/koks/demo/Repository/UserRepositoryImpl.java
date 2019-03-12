@@ -1,5 +1,6 @@
 package koks.demo.Repository;
 
+import koks.demo.Interfaces.UserRepository;
 import koks.demo.Model.Account;
 import koks.demo.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class UserRepository {
+public class UserRepositoryImpl implements UserRepository {
 
     @Autowired
     JdbcTemplate template;
@@ -60,53 +61,26 @@ public class UserRepository {
     }
 
     //get all users in database
-    public List<User> findAll() {
-        List<Integer> ids = new ArrayList<>();
-        List<User> users = new ArrayList<>();
-
-        ids.addAll(template.query("select id from auth_user;",
-                (rs, rowNum) -> rs.getInt("id")));
-        for(Integer id: ids) {
-            users.add(getUser(id));
-        }
-        return users;
+    public List<User> findAllUsers() {
+        List<User> user = new ArrayList<>();
+        user.addAll(template.query("select * from auth_user;",
+                (rs, rowNum) ->  new User(
+                        rs.getInt("id"),
+                        rs.getString("username"),
+                        rs.getString("password"))
+        ));
+        return user;
     }
 
     //save new User to DB
-    public void saveUserToDB(User user, int status){
-        String account = "INSERT into user_accounts (user_id, iban, funds, real_name) values (?,?,?,?);";
-        String userRoles = "INSERT into role_user (user_id, role) values (?,?);";
+    public void saveUserToDB(User user){
         String userCreds = "INSERT into user_accounts (id, username, password) values (?,?,?);";
-        Account acc = user.getAccounts().get(0);
-        switch (status){
-            case 1: //save username password
-                template.update(userCreds, user.getId(), user.getUsername(), user.getPassword());
-                break;
-
-            case 2: //save role
-                for (String roles:user.getRoles()) template.update(userRoles, user.getId(), roles);
-                break;
-
-            case 3: //save account
-                template.update(account, user.getId(), acc.getIban(), acc.getFunds(), acc.getRealName());
-                break;
-
-            default: //save whole user
-                template.update(userCreds, user.getId(), user.getUsername(), user.getPassword());
-                for (String roles:user.getRoles()) template.update(userRoles, user.getId(), roles);
-                template.update(account, user.getId(), acc.getIban(), acc.getFunds(), acc.getRealName());
-        }
+        template.update(userCreds, user.getId(), user.getUsername(), user.getPassword());
     }
 
     //update funds by account, by iban
-    public void updateFundsByIban(Account acc){
+    public void updateFundsByAccount(Account acc){
         String updateString = "update user_accounts set funds = funds + ? where user_accounts.iban=?";
         template.update(updateString, acc.getFunds(), acc.getIban());
-    }
-
-    //update funds by account by Holder name
-    public void updateFundsByRealName(Account acc){
-        String updateString = "update user_accounts set funds = funds + ? where user_accounts.real_name=?";
-        template.update(updateString, acc.getFunds(), acc.getRealName());
     }
 }

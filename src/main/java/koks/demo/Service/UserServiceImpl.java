@@ -1,20 +1,22 @@
 package koks.demo.Service;
 
+import koks.demo.Interfaces.UserService;
 import koks.demo.Model.Account;
 import koks.demo.Model.User;
-import koks.demo.Repository.UserRepository;
+import koks.demo.Repository.UserRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository repository;
+    UserRepositoryImpl repository;
 
-    public int getId(String username){
+    @Override
+    public Integer getId(String username){
         return repository.getUser(username).getId();
     }
 
@@ -30,8 +32,9 @@ public class UserService {
         return repository.getUser(id).getAccounts();
     }
 
+    @Override
     public List<User> getAll() {
-        return repository.findAll();
+        return repository.findAllUsers();
     }
 
     public void saveAccount(Account acc){
