@@ -17,22 +17,18 @@ create table user_accounts
   foreign key (user_id) references auth_user(id)
 );
 
-create table role_user
+create table role
 (
   id integer(11) not null auto_increment,
-  user_id integer(11),
   roles varchar(20),
-  primary key (id),
-  foreign key (user_id) references auth_user(id)
+  primary key (id)
 );
 
 create table user_roles
 (
-  id integer(11) not null auto_increment,
   user_id integer(11),
   role_id integer(11),
-  primary key (id),
-  foreign key (role_id) references role_user(id),
+  foreign key (role_id) references role (id),
   foreign key (user_id) references auth_user(id)
 );
 
@@ -53,15 +49,15 @@ insert into user_accounts (user_id, iban, funds, real_name) values
   (3,'HR8888010051550200007','500','Pero'),
   (4,'HR8888010051550200008','2000','Goran');
 
-insert into role_user (user_id, roles) values
-(1,'ADMIN'),
-(1,'USER'),
-(2,'USER'),
-(3,'USER'),
-(4,'USER');
+insert into role (roles) values
+('ADMIN'),
+('USER');
 
+#ima mi smisla samo ovo ali primary key mi nikako ne odgovara
+#ali radi
 insert into user_roles (user_id, role_id) values
 (1,1),
+(1,2),
 (2,2),
 (3,2),
 (4,2);

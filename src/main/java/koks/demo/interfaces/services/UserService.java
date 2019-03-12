@@ -1,6 +1,6 @@
-package koks.demo.Interfaces;
+package koks.demo.interfaces.services;
 
-import koks.demo.Model.User;
+import koks.demo.model.User;
 import java.util.List;
 
 public interface UserService {
@@ -17,4 +17,5 @@ public interface UserService {
      * @return Integer
      */
     Integer getId(String username);
+
 }

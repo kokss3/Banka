@@ -1,8 +1,9 @@
-package koks.demo.Repository;
+package koks.demo.repository;
 
-import koks.demo.Interfaces.UserRepository;
-import koks.demo.Model.Account;
-import koks.demo.Model.User;
+import koks.demo.interfaces.repos.AccountRepository;
+import koks.demo.interfaces.repos.UserRepository;
+import koks.demo.model.Account;
+import koks.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class UserRepositoryImpl implements UserRepository {
+public class UserRepositoryImpl implements UserRepository, AccountRepository {
 
     @Autowired
     JdbcTemplate template;
@@ -38,8 +39,7 @@ public class UserRepositoryImpl implements UserRepository {
                                     "on user_accounts.user_id = auth_user.id where auth_user.id=?;";
         String queryForUserName = "select auth_user.username from auth_user where id=?;";
         String queryForPassword= "select auth_user.password from auth_user where id=?;";
-        String queryForUserRoles = "select role_user.role from role_user inner join auth_user " +
-                                    "on role_user.user_id = auth_user.id where auth_user.id=?;";
+
 
         //get id
         user.setId(id);
@@ -49,15 +49,20 @@ public class UserRepositoryImpl implements UserRepository {
                 new Account(rs.getInt("id"),rs.getString("real_name"),
                         rs.getString("iban"), rs.getDouble("funds"))));
 
-        //get roles
-        user.setRoles(template.query(queryForUserRoles, new Object[]{ id },
-                (rs, rowNum) -> rs.getString("role")));
+
 
         //get username and password
         user.setUsername(template.queryForObject(queryForUserName, new Object[]{id}, String.class));
         user.setPassword(template.queryForObject(queryForPassword, new Object[]{id}, String.class));
 
         return user;
+    }
+
+
+    @Override
+    public Integer getUserId(String username) {
+        String queryForId = "select id from auth_user where username=?;";
+        return template.queryForObject(queryForId, new Object[]{username}, Integer.class);
     }
 
     //get all users in database
@@ -73,12 +78,19 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     //save new User to DB
+    @Override
     public void saveUserToDB(User user){
         String userCreds = "INSERT into user_accounts (id, username, password) values (?,?,?);";
         template.update(userCreds, user.getId(), user.getUsername(), user.getPassword());
     }
 
+    @Override
+    public List<Account> findAccountListById(int id) {
+        return null;
+    }
+
     //update funds by account, by iban
+    @Override
     public void updateFundsByAccount(Account acc){
         String updateString = "update user_accounts set funds = funds + ? where user_accounts.iban=?";
         template.update(updateString, acc.getFunds(), acc.getIban());

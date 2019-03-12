@@ -1,4 +1,4 @@
-package koks.demo.Model;
+package koks.demo.model;
 
 public class Account {
 

@@ -1,6 +1,6 @@
-package koks.demo.Security;
+package koks.demo.security;
 
-import koks.demo.Service.MyUserDetailsService;
+import koks.demo.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
-        // Setting Service to find User in the database.
+        // Setting service to find User in the database.
         // And Setting PassswordEncoder
         //TODO Nedostaje ti password encoder -> .passwordEncoder(passwordEncoder()); pa login ne bi trebao raditi jer u bazi imaš enkriptirane lozinke
         auth.userDetailsService(userDetailsService);

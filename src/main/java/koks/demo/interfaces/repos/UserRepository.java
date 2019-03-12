@@ -1,11 +1,12 @@
-package koks.demo.Interfaces;
+package koks.demo.interfaces.repos;
 
-import koks.demo.Model.User;
+import koks.demo.model.User;
 
 import java.util.List;
 
 public interface UserRepository {
 
+    Integer getUserId(String username);
     User getUser(int id);
     User getUser(String username);
     List<User> findAllUsers();
