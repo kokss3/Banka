@@ -5,7 +5,10 @@ create table auth_user
   password varchar(255),
   primary key (id)
 );
-
+-- Relacija između auth_user i role_user nije u redu ako želiš da user ima više rola
+-- u ovom slučaju napraviš da svaka rola ima samo jednog usera, što znači ako želiš da 1000 usera ima rolu USER -> morat ćeš imati 1000 istih rola
+-- Možeš promijeniti da svaki user ima samo jednu rolu pa promijeniti bazu na temelju toga
+-- Ako želiš ostaviti da user ima više rola, moraš imati dodatnu tablicu (user_roles) koja ima user_id i role_id kao primarne ključeve...
 create table role_user
 (
   id integer(11) not null auto_increment,

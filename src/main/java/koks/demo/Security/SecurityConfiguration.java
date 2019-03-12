@@ -26,6 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         // Setting Service to find User in the database.
         // And Setting PassswordEncoder
+        //TODO Nedostaje ti password encoder -> .passwordEncoder(passwordEncoder()); pa login ne bi trebao raditi jer u bazi imaš enkriptirane lozinke
         auth.userDetailsService(userDetailsService);
     }
 

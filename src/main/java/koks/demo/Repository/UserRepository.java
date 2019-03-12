@@ -14,6 +14,13 @@ public class UserRepository {
     @Autowired
     JdbcTemplate template;
 
+    //TODO Obavezno treba razdvojiti repozitorije za usera, accounte i role. Ne smiju biti pomiješani
+    /*
+    Ako te zbunjuje kako ćeš onda dobiti Usera s rolama i accountima, to ćeš raditi u servisu - prvo ćeš dobiti osnovne podatke korisnika
+    i onda ako ti trebaju accounti od njega otići ćeš u AccountRepository i pozvati metodu findAllByUserId(userId)
+    ako ti trebaju role otići ćeš u RoleRepository.... itd...
+     */
+
     ///OVERLOADING METHODS
     //getUser by account-iban
     public User getUser(Account acc) {
@@ -22,12 +29,15 @@ public class UserRepository {
     }
 
     //getUser by username
+    //TODO - zašto ne vratiti odmah cijelog usera?
     public User getUser(String username) {
         String queryForId = "select id from auth_user where username=?;";
         return getUser(template.queryForObject(queryForId, new Object[]{username}, Integer.class));
     }
 
     //getUser by id
+    //TODO Kako sam rekao gore, vrati samo usera i onda traži dalje i ne treba za svaki field raditi poseban query
+    // Trebalo bi biti samo "select * from users where user_id = id" i to je to
     public User getUser(int id){
         User user = new User();
 
@@ -60,6 +70,7 @@ public class UserRepository {
     }
 
     //get all users in database
+    //TODO ne treba ovdje za svaki id posebno zvati userById.. može se napraviti da result vraća odmah listu svih podataka od usera -> queryForList("select * from users") i to je to
     public List<User> findAll() {
         List<Integer> ids = new ArrayList<>();
         List<User> users = new ArrayList<>();
@@ -73,6 +84,7 @@ public class UserRepository {
     }
 
     //save new User to DB
+    //TODO ovdje bi trebao spremati samo korisnika... dodavanje accounta i rola moraju biti posebno
     public void saveUserToDB(User user, int status){
         String account = "INSERT into user_accounts (user_id, iban, funds, real_name) values (?,?,?,?);";
         String userRoles = "INSERT into role_user (user_id, role) values (?,?);";
