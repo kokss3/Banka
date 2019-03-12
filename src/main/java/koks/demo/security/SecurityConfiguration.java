@@ -23,11 +23,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        System.out.println(userDetailsService);
         // Setting service to find User in the database.
-        // And Setting PassswordEncoder
-        //TODO Nedostaje ti password encoder -> .passwordEncoder(passwordEncoder());
-        // pa login ne bi trebao raditi jer u bazi imaš enkriptirane lozinke
+        // And Setting PasswordEncoder
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
@@ -51,6 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .defaultSuccessUrl("/index")
                 .usernameParameter("username")
-                .passwordParameter("password");
+                .passwordParameter("password")
+                .and().logout().logoutSuccessUrl("/");
     }
 }

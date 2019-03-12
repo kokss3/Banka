@@ -18,4 +18,6 @@ public interface UserService {
      */
     Integer getId(String username);
 
+    void createNewUser(User user);
+
 }

@@ -1,7 +1,9 @@
 package koks.demo.controller;
 
 import koks.demo.interfaces.controlers.controllerToServices;
+import koks.demo.interfaces.repos.RoleRepository;
 import koks.demo.model.Account;
+import koks.demo.model.User;
 import koks.demo.repository.RoleRepositoryImpl;
 import koks.demo.service.AccountServiceImpl;
 import koks.demo.service.UserServiceImpl;
@@ -36,8 +38,20 @@ public class StarterController implements controllerToServices {
     public String login(ModelMap model){
         List<Account> accounts = accountService.getAccountListById(userService.getId(getLoggedInUserName()));
 
-        model.addAttribute("username", accounts.get(0).getRealName());
-        model.addAttribute("users", accounts);
+        //Exception for new user
+        try {
+            model.addAttribute("username", accounts.get(0).getRealName());
+            model.addAttribute("users", accounts);
+
+        }catch (IndexOutOfBoundsException e){
+            System.out.println(e);
+
+            List<Account> temp = new ArrayList<>();
+            temp.add(new Account(0,getLoggedInUserName(),"",0));
+
+            model.addAttribute("username", getLoggedInUserName());
+            model.addAttribute("users", temp);
+        }
         return "index";
     }
 
@@ -64,6 +78,22 @@ public class StarterController implements controllerToServices {
 
         return "redirect:/index";
     }
+
+    @GetMapping("/register")
+    public String postRegister(){
+        return "register";
+    }
+    @PostMapping("/register")
+    public String registerNewUser(ModelMap model, @ModelAttribute("/register") User user){
+        userService.createNewUser(user);
+
+        //default role hardcoding
+        Integer tempID = userService.getId(user.getUsername());
+        roleRepository.setRoles(tempID, RoleRepository.ROLE_USER);
+
+        return "redirect:/";
+    }
+
 
     @GetMapping("/admin")
     public String adminStuff(ModelMap model){

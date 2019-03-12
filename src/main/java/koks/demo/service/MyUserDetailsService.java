@@ -31,7 +31,6 @@ public class MyUserDetailsService implements UserDetailsService {
         int id = userRepository.getUser(username).getId();
         List<GrantedAuthority> grantList = new ArrayList<>();
         for (String role : roleRepositoryImpl.getRolesById(id)) {
-            System.out.println(role);
 
             grantList.add(new SimpleGrantedAuthority(role));
         }

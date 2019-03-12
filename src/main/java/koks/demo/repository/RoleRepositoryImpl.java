@@ -23,4 +23,10 @@ public class RoleRepositoryImpl implements RoleRepository {
         return template.query(queryForUserRoles, new Object[]{ id },
                 (rs, rowNum) -> rs.getString("roles"));
     }
+
+    @Override
+    public void setRoles(Integer id, Integer roleNumber){
+        String saveCommand = "insert into user_roles (user_id, role_id) value(?,?);";
+        template.update(saveCommand,id, roleNumber);
+    }
 }
