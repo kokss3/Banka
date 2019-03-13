@@ -6,7 +6,6 @@ import koks.demo.repository.AccountRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.ws.ServiceMode;
 import java.util.List;
 
 @Service
@@ -24,4 +23,10 @@ public class AccountServiceImpl implements AccountService {
     public void saveAccount(Account acc) {
         repository.updateFundsByAccount(acc);
     }
+    @Override
+    public void saveNewAccount(Account acc, Integer id) {
+        repository.crateAccount(acc, id);
+    }
+
+
 }

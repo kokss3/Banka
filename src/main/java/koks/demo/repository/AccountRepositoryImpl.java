@@ -26,8 +26,25 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
+    public boolean hasRealName(String realName) {
+        int  value;
+        String checkFor = "SELECT IF( EXISTS(SELECT COUNT(*) FROM user_accounts WHERE real_name = ? ),1,0)";
+        value = template.query(checkFor, new Object[]{realName}, (rs, rowNum) -> (rs.getInt(0))).get(0);
+        return value > 0;
+    }
+
+    @Override
     public void updateFundsByAccount(Account acc){
         String updateString = "update user_accounts set funds = funds + ? where user_accounts.iban=?";
         template.update(updateString, acc.getFunds(), acc.getIban());
     }
+
+    @Override
+    public void crateAccount(Account acc, Integer id) {
+        String createString = "insert into user_accounts (user_id,iban,funds,real_name) values(?,?,?,?)";
+        template.update(createString, id, acc.getIban(), acc.getFunds(), acc.getRealName());
+
+    }
+
+
 }

@@ -1,7 +1,9 @@
 package koks.demo.service;
 
+import koks.demo.interfaces.services.RoleService;
 import koks.demo.interfaces.services.UserService;
 import koks.demo.model.User;
+import koks.demo.repository.RoleRepositoryImpl;
 import koks.demo.repository.UserRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,19 +11,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, RoleService {
 
     @Autowired
     UserRepositoryImpl repository;
 
+    @Autowired
+    RoleRepositoryImpl roleRepository;
 
     @Override
     public Integer getId(String username){
         return repository.getUser(username).getId();
-    }
-
-    public List<String> getRoles(int id){
-        return repository.getUser(id).getRoles();
     }
 
     @Override
@@ -34,4 +34,13 @@ public class UserServiceImpl implements UserService {
         return repository.findAllUsers();
     }
 
+    @Override
+    public void setRoles(Integer id, Integer roleNumber) {
+        roleRepository.setRoles(id,roleNumber);
+    }
+
+    @Override
+    public List<String> getRolesById(Integer id) {
+        return roleRepository.getRolesById(id);
+    }
 }

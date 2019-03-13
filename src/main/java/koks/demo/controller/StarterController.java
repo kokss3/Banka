@@ -24,9 +24,6 @@ public class StarterController implements controllerToServices {
     @Autowired
     AccountServiceImpl accountService;
 
-    @Autowired
-    RoleRepositoryImpl roleRepository;
-
     @Override
     @GetMapping("/")
     public String runStart(){
@@ -84,16 +81,15 @@ public class StarterController implements controllerToServices {
         return "register";
     }
     @PostMapping("/register")
-    public String registerNewUser(ModelMap model, @ModelAttribute("/register") User user){
+    public String registerNewUser(@ModelAttribute("/register") User user){
         userService.createNewUser(user);
 
         //default role hardcoding
         Integer tempID = userService.getId(user.getUsername());
-        roleRepository.setRoles(tempID, RoleRepository.ROLE_USER);
+        userService.setRoles(tempID, RoleRepository.ROLE_USER);
 
         return "redirect:/";
     }
-
 
     @GetMapping("/admin")
     public String adminStuff(ModelMap model){

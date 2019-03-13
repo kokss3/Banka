@@ -1,5 +1,6 @@
 package koks.demo.repository;
 
+import koks.demo.interfaces.repos.RoleRepository;
 import koks.demo.interfaces.repos.UserRepository;
 import koks.demo.model.Account;
 import koks.demo.model.User;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class UserRepositoryImpl implements UserRepository {
+public class UserRepositoryImpl implements UserRepository, RoleRepository {
 
     @Autowired
     JdbcTemplate template;
@@ -75,5 +76,18 @@ public class UserRepositoryImpl implements UserRepository {
         String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
 
         template.update(userCreds, user.getUsername(), encryptedPassword);
+    }
+
+    @Override
+    public List<String> getRolesById(int id) {
+        String getRoles="select * from ;";
+
+        return template.query(getRoles,new Object[] {id},
+                (rs, rowNum)->(rs.getString("id")));
+    }
+
+    @Override
+    public void setRoles(Integer id, Integer roleNumber) {
+
     }
 }

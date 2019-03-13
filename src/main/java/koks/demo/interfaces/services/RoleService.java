@@ -4,5 +4,6 @@ import java.util.List;
 
 public interface RoleService {
 
-    void setRoles(List<String> roles);
+    void setRoles(Integer id, Integer roleNumber);
+    List<String> getRolesById(Integer id);
 }
