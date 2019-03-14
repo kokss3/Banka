@@ -1,6 +1,5 @@
 package koks.demo.repository;
 
-import koks.demo.interfaces.repos.RoleRepository;
 import koks.demo.interfaces.repos.UserRepository;
 import koks.demo.model.Account;
 import koks.demo.model.User;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class UserRepositoryImpl implements UserRepository, RoleRepository {
+public class UserRepositoryImpl implements UserRepository{
 
     @Autowired
     JdbcTemplate template;
@@ -22,7 +21,7 @@ public class UserRepositoryImpl implements UserRepository, RoleRepository {
 
     //getUser by username
     public User getUser(String username) {
-        String queryForId = "select id from auth_user where username=?;";
+        String queryForId = "select id from user_auth where username=?;";
         return getUser(template.queryForObject(queryForId, new Object[]{username}, Integer.class));
     }
 
@@ -31,8 +30,8 @@ public class UserRepositoryImpl implements UserRepository, RoleRepository {
         User user = new User();
 
         //declare queries
-        String queryForUserName = "select auth_user.username from auth_user where id=?;";
-        String queryForPassword= "select auth_user.password from auth_user where id=?;";
+        String queryForUserName = "select user_auth.username from user_auth where id=?;";
+        String queryForPassword= "select user_auth.password from user_auth where id=?;";
 
         //get id
         user.setId(id);
@@ -46,14 +45,14 @@ public class UserRepositoryImpl implements UserRepository, RoleRepository {
 
     @Override
     public Integer getUserId(String username) {
-        String queryForId = "select id from auth_user where username=?;";
+        String queryForId = "select id from user_auth where username=?;";
         return template.queryForObject(queryForId, new Object[]{username}, Integer.class);
     }
 
     //get all users in database
     public List<User> findAllUsers() {
         List<User> user = new ArrayList<>();
-        user.addAll(template.query("select * from auth_user;",
+        user.addAll(template.query("select * from user_auth;",
                 (rs, rowNum) ->  new User(
                         rs.getInt("id"),
                         rs.getString("username"),
@@ -71,7 +70,7 @@ public class UserRepositoryImpl implements UserRepository, RoleRepository {
     //save new User to DB
     @Override
     public void saveUserToDB(User user){
-        String userCreds = "INSERT into auth_user (username, password) values (?,?);";
+        String userCreds = "INSERT into user_auth (username, password) values (?,?);";
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
 
@@ -79,15 +78,8 @@ public class UserRepositoryImpl implements UserRepository, RoleRepository {
     }
 
     @Override
-    public List<String> getRolesById(int id) {
-        String getRoles="select * from ;";
-
-        return template.query(getRoles,new Object[] {id},
-                (rs, rowNum)->(rs.getString("id")));
-    }
-
-    @Override
-    public void setRoles(Integer id, Integer roleNumber) {
-
+    public void removeUser(User user) {
+        String removeRole="delete from user_auth where id=?";
+        template.update(removeRole,user.getId());
     }
 }

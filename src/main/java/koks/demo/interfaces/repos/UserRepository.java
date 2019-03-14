@@ -11,4 +11,5 @@ public interface UserRepository {
     User getUser(String username);
     List<User> findAllUsers();
     void saveUserToDB(User user);
+    void removeUser(User user);
 }

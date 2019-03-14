@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.CallableStatement;
 import java.util.List;
 
 @Repository
@@ -17,8 +18,8 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public List<Account> findAccountListById(int id){
         String queryForAccounts = "select user_accounts.id, user_accounts.iban, user_accounts.funds, " +
-                "user_accounts.real_name from user_accounts inner join auth_user " +
-                "on user_accounts.user_id = auth_user.id where auth_user.id=?;";
+                "user_accounts.real_name from user_accounts inner join user_auth " +
+                "on user_accounts.user_id = user_auth.id where user_auth.id=?;";
 
         return template.query(queryForAccounts,new Object[]{ id }, (rs, rowNum) ->
                 new Account(rs.getInt("id"),rs.getString("real_name"),
@@ -46,5 +47,9 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     }
 
-
+    @Override
+    public void removeAccount(Account acc) {
+        String removeCommand = "delete from user_accounts where id=?;";
+        template.update(removeCommand, acc.getId());
+    }
 }

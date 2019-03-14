@@ -28,6 +28,19 @@
                 <td>Password:</td>
                 <td><input type='password' id="password" name='password' /></td>
             </tr>
+
+          <tr>
+                <div class="input-group">
+                    <div class="input-group-append">
+                        <button class="btn btn-success dropdown-toggle"
+                            type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Role</button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">ADMINISTRATOR</a>
+                            <a class="dropdown-item" href="#">USER</a>
+                        </div>
+                    </div>
+                </div>
             <tr>
                 <td><button class="btn btn-success"  username="submit" type="submit" value="submit">Register</button></td>
             </tr>

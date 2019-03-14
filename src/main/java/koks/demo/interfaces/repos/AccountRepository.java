@@ -10,4 +10,5 @@ public interface AccountRepository {
     boolean hasRealName(String realName);
     void updateFundsByAccount(Account acc);
     void crateAccount(Account acc, Integer id);
+    void removeAccount(Account acc);
 }

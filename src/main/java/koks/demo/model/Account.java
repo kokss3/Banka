@@ -6,14 +6,15 @@ public class Account {
         super();
     }
 
-    public Account(Integer id, String realName, String iban, double funds) {
-        this.id = id;
+    public Account(Integer user_id, String realName, String iban, double funds) {
+        this.user_id = user_id;
         this.realName = realName;
         this.iban = iban;
         this.funds = funds;
     }
 
     private Integer id;
+    private Integer user_id;
     private String realName;
     private String iban;
     private double funds;
@@ -22,8 +23,16 @@ public class Account {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
     public String getRealName() {
@@ -53,7 +62,7 @@ public class Account {
     @Override
     public String toString() {
         return "Account{" +
-                "id=" + id +
+                "user_id=" + user_id +
                 ", realName='" + realName + '\'' +
                 ", iban='" + iban + '\'' +
                 ", funds=" + funds +

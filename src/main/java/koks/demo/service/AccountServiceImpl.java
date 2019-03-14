@@ -20,9 +20,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void saveAccount(Account acc) {
+    public void updateAccount(Account acc) {
         repository.updateFundsByAccount(acc);
     }
+
+    @Override
+    public void removeAccount(Account acc) {
+        repository.removeAccount(acc);
+    }
+
     @Override
     public void saveNewAccount(Account acc, Integer id) {
         repository.crateAccount(acc, id);

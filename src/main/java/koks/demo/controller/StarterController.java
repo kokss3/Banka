@@ -4,7 +4,6 @@ import koks.demo.interfaces.controlers.controllerToServices;
 import koks.demo.interfaces.repos.RoleRepository;
 import koks.demo.model.Account;
 import koks.demo.model.User;
-import koks.demo.repository.RoleRepositoryImpl;
 import koks.demo.service.AccountServiceImpl;
 import koks.demo.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,10 +67,10 @@ public class StarterController implements controllerToServices {
 
         //subtract funds from sender
         senderAccount.setFunds(-acc.getFunds());
-        accountService.saveAccount(senderAccount);
+        accountService.updateAccount(senderAccount);
 
         //adding to recipient acc
-        accountService.saveAccount(acc);
+        accountService.updateAccount(acc);
 
         return "redirect:/index";
     }
@@ -80,6 +79,7 @@ public class StarterController implements controllerToServices {
     public String postRegister(){
         return "register";
     }
+
     @PostMapping("/register")
     public String registerNewUser(@ModelAttribute("/register") User user){
         userService.createNewUser(user);

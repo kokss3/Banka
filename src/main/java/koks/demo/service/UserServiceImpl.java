@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService, RoleService {
+public class UserServiceImpl implements RoleService, UserService {
 
     @Autowired
     UserRepositoryImpl repository;
@@ -30,6 +30,11 @@ public class UserServiceImpl implements UserService, RoleService {
     }
 
     @Override
+    public void removeUser(User user) {
+        repository.removeUser(user);
+    }
+
+    @Override
     public List<User> getAll() {
         return repository.findAllUsers();
     }
@@ -43,4 +48,10 @@ public class UserServiceImpl implements UserService, RoleService {
     public List<String> getRolesById(Integer id) {
         return roleRepository.getRolesById(id);
     }
+
+    @Override
+    public void removeRole(User user) {
+      roleRepository.removeRole(user);
+    }
+
 }

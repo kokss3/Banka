@@ -1,5 +1,7 @@
 package koks.demo.interfaces.repos;
 
+import koks.demo.model.User;
+
 import java.util.List;
 
 public interface RoleRepository {
@@ -10,4 +12,6 @@ public interface RoleRepository {
     List<String> getRolesById(int id);
 
     void setRoles(Integer id, Integer roleNumber);
+
+    void removeRole(User user);
 }

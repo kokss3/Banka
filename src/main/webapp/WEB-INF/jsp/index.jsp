@@ -22,7 +22,7 @@
                 <td>${names.funds}</td>
                 <td>
                     <form action="/transfer" method="GET">
-                        <button class="btn btn-success" name="ibans" value="${names.id}"
+                        <button class="btn btn-success" name="ibans" value="${names.user_id}"
                                 type="submit" onclick="location.href='/transfer'">Posalji</button>
                     </form>
                 </td>
