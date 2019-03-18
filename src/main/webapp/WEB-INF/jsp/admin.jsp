@@ -7,14 +7,13 @@
     <table class="table-striped" width="75%" align="center">
         <thead>
         <div class="container">
-            <div class="btn btn-success" id="user" title="Dodaj korisnika">Dodaj korisnika</div>
-            <div class="btn btn-danger" title="Obrisi korisnika">Obrisi korisnika</div>
+            <div class="btn btn-success" id="user" title="Dodaj korisnika"
+                 onclick="location.href='/add_user'">Dodaj korisnika</div>
         </div>
             <tr style="width: 200px">
             <td>Ime</td>
             <td>IBAN</td>
             <td>Sredstva</td>
-            <td>Racuni</td>
         </tr>
         </thead>
         <tbody>
@@ -25,13 +24,10 @@
                     <c:forEach items="${user.accounts}" var ="acc">
                 <tr>
                     <div class="input-group-text">
+                        <input value="${acc.user_id}"  hidden>
                     <td>${acc.realName}</td>
                     <td>${acc.iban}</td>
                     <td>${acc.funds}</td>
-                    <td>
-                        <div class="btn btn-success" id="account" title="Dodaj racun">Dodaj racun</div>
-                        <div class="btn btn-danger" title="Obrisi racun">Obrisi racun</div>
-                    </td>
                     </div>
                 </tr>
                     </c:forEach>

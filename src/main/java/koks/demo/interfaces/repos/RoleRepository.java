@@ -13,5 +13,5 @@ public interface RoleRepository {
 
     void setRoles(Integer id, Integer roleNumber);
 
-    void removeRole(User user);
+    void removeRole(User user, String role);
 }

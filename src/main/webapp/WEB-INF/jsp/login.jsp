@@ -21,15 +21,15 @@
         <table>
             <tr>
                 <td>Username:</td>
-                <td><input type="text" name="username" user_id="username"> </td>
+                <td><input type="text" name="username" id="username"> </td>
             </tr>
 
             <tr>
                 <td>Password:</td>
-                <td><input type='password' user_id="password" name='password' /></td>
+                <td><input type='password' id="password" name='password' /></td>
             </tr>
             <tr>
-                <td><button class="btn btn-success"  username="submit" type="submit" value="submit">Login</button></td>
+                <td><button class="btn btn-success"  name="submit" type="submit" value="submit">Login</button></td>
             </tr>
         </table>
     </form>

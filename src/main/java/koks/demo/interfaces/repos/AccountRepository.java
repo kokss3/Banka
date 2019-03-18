@@ -7,8 +7,8 @@ import java.util.List;
 public interface AccountRepository {
 
     List<Account> findAccountListById(int id);
-    boolean hasRealName(String realName);
+    Account findAccountByIban(String iban);
     void updateFundsByAccount(Account acc);
-    void crateAccount(Account acc, Integer id);
+    void crateAccount(Account acc);
     void removeAccount(Account acc);
 }

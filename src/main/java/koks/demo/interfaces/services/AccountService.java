@@ -7,7 +7,8 @@ import java.util.List;
 public interface AccountService {
 
     List<Account> getAccountListById(int id);
-    void saveNewAccount(Account acc, Integer id);
+    Account getAccountByIban(String iban);
+    void saveNewAccount(Account acc);
     void updateAccount(Account acc);
     void removeAccount(Account acc);
 }

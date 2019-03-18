@@ -32,8 +32,8 @@ public class RoleRepositoryImpl implements RoleRepository {
     }
 
     @Override
-    public void removeRole(User user) {
-        String removeCommand = "delete from user_roles where user_id=?;";
-        template.update(removeCommand,user.getId());
+    public void removeRole(User user, String role) {
+        String removeCommand = "delete from user_roles where user_id=? and role_id=?;";
+        template.update(removeCommand,user.getId(), role);
     }
 }

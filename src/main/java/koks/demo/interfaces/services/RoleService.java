@@ -8,5 +8,5 @@ public interface RoleService {
 
     void setRoles(Integer id, Integer roleNumber);
     List<String> getRolesById(Integer id);
-    void removeRole(User user);
+    void removeRole(User user, String role);
 }

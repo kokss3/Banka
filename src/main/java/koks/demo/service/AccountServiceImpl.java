@@ -20,6 +20,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Account getAccountByIban(String iban) {
+        return repository.findAccountByIban(iban);
+    }
+
+    @Override
     public void updateAccount(Account acc) {
         repository.updateFundsByAccount(acc);
     }
@@ -30,9 +35,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void saveNewAccount(Account acc, Integer id) {
-        repository.crateAccount(acc, id);
+    public void saveNewAccount(Account acc) {
+        repository.crateAccount(acc);
     }
-
-
 }

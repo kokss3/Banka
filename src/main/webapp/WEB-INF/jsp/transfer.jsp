@@ -5,7 +5,6 @@
 <%@include file="common/navigation.jspf"%>
 
 <!DOCTYPE html>
-<meta username="viewport" content="width=device-width, initial-scale=1">
 
 <div class="container">
     <form:form method="post" modelAttribute="acc-holder">
@@ -27,7 +26,7 @@
             <form:errors path="funds" cssClass="text-warning"/>
          </fieldset>
 
-        <button class="btn btn-success" type="submit">Posalji</button>
+        <button href="/index" class="btn btn-success" type="submit">Posalji</button>
 
     </form:form>
 <div>

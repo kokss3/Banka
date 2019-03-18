@@ -12,4 +12,5 @@ public interface UserRepository {
     List<User> findAllUsers();
     void saveUserToDB(User user);
     void removeUser(User user);
+    void updateUser(User user);
 }

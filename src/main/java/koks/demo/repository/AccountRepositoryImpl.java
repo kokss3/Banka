@@ -5,8 +5,6 @@ import koks.demo.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import java.sql.CallableStatement;
 import java.util.List;
 
 @Repository
@@ -17,21 +15,24 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public List<Account> findAccountListById(int id){
-        String queryForAccounts = "select user_accounts.id, user_accounts.iban, user_accounts.funds, " +
+        String queryForAccounts = "select user_accounts.user_id, user_accounts.iban, user_accounts.funds, " +
                 "user_accounts.real_name from user_accounts inner join user_auth " +
                 "on user_accounts.user_id = user_auth.id where user_auth.id=?;";
 
         return template.query(queryForAccounts,new Object[]{ id }, (rs, rowNum) ->
-                new Account(rs.getInt("id"),rs.getString("real_name"),
+                new Account(rs.getInt("user_id"),rs.getString("real_name"),
                         rs.getString("iban"), rs.getDouble("funds")));
     }
 
     @Override
-    public boolean hasRealName(String realName) {
-        int  value;
-        String checkFor = "SELECT IF( EXISTS(SELECT COUNT(*) FROM user_accounts WHERE real_name = ? ),1,0)";
-        value = template.query(checkFor, new Object[]{realName}, (rs, rowNum) -> (rs.getInt(0))).get(0);
-        return value > 0;
+    public Account findAccountByIban(String iban) {
+        String queryForAccounts = "select user_accounts.id, user_accounts.funds, " +
+                "user_accounts.real_name from user_accounts inner join user_auth " +
+                "on user_accounts.user_id = user_auth.id where user_accounts.iban=?;";
+
+        return template.query(queryForAccounts,new Object[]{ iban }, (rs, rowNum) ->
+                new Account(rs.getInt("id"),rs.getString("real_name"),
+                        iban, rs.getDouble("funds"))).get(0);
     }
 
     @Override
@@ -41,15 +42,15 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public void crateAccount(Account acc, Integer id) {
+    public void crateAccount(Account acc) {
         String createString = "insert into user_accounts (user_id,iban,funds,real_name) values(?,?,?,?)";
-        template.update(createString, id, acc.getIban(), acc.getFunds(), acc.getRealName());
+        template.update(createString, acc.getUser_id(), acc.getIban(), acc.getFunds(), acc.getRealName());
 
     }
 
     @Override
     public void removeAccount(Account acc) {
-        String removeCommand = "delete from user_accounts where id=?;";
-        template.update(removeCommand, acc.getId());
+        String removeCommand = "delete from user_accounts where iban=?;";
+        template.update(removeCommand, acc.getIban());
     }
 }

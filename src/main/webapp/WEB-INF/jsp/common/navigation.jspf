@@ -6,9 +6,10 @@
     <div class="navbar-collapse">
         <ul class="nav navbar-nav">
             <li class="active"><a href="/index">Home</a></li>
-            <li class="active"><a href="/transfer">Prijenos</a></li>
-            <li class="active"><a href="/transfer">Dodaj racun</a></li>
+
             <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <li class="active"><a href="/remove">Obrisi</a></li>
+                <li class="active"><a href="/add_account">Dodaj racun</a></li>
                 <li class="active"><a href="/admin">Administrator</a></li>
             </sec:authorize>
 

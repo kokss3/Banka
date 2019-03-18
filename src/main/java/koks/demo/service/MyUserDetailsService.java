@@ -14,28 +14,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class MyUserDetailsService implements UserDetailsService {
+public class MyUserDetailsService extends UserServiceImpl implements UserDetailsService  {
 
     @Autowired
     UserRepositoryImpl userRepository;
 
     @Autowired
-    RoleRepositoryImpl roleRepositoryImpl;
-
-    private Integer getUserId(String username){
-        return userRepository.getUser(username).getId();
-    }
+    RoleRepositoryImpl roleRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        int id = userRepository.getUser(username).getId();
+        koks.demo.model.User user = userRepository.getUser(username);
+
         List<GrantedAuthority> grantList = new ArrayList<>();
-        for (String role : roleRepositoryImpl.getRolesById(id)) {
+        for (String role : roleRepository.getRolesById(user.getId())) grantList.add(new SimpleGrantedAuthority(role));
 
-            grantList.add(new SimpleGrantedAuthority(role));
-        }
-
-        return new User(userRepository.getUser(id).getUsername(),
-                userRepository.getUser(id).getPassword(), grantList);
+        return new User(user.getUsername(), user.getPassword(), grantList);
     }
 }

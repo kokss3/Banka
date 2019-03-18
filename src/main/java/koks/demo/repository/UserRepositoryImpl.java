@@ -19,10 +19,17 @@ public class UserRepositoryImpl implements UserRepository{
     @Autowired
     AccountRepositoryImpl accountRepository;
 
+    @Autowired
+    RoleRepositoryImpl roleRepository;
+
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
     //getUser by username
     public User getUser(String username) {
-        String queryForId = "select id from user_auth where username=?;";
-        return getUser(template.queryForObject(queryForId, new Object[]{username}, Integer.class));
+        String queryForId = "select id from user_auth where username=?";
+        int id = template.queryForObject(queryForId, new Object[]{username}, Integer.class);
+        return getUser(id);
     }
 
     //getUser by id
@@ -33,12 +40,16 @@ public class UserRepositoryImpl implements UserRepository{
         String queryForUserName = "select user_auth.username from user_auth where id=?;";
         String queryForPassword= "select user_auth.password from user_auth where id=?;";
 
-        //get id
         user.setId(id);
 
-        //get username and password
+        //prepare username and password
         user.setUsername(template.queryForObject(queryForUserName, new Object[]{id}, String.class));
         user.setPassword(template.queryForObject(queryForPassword, new Object[]{id}, String.class));
+
+        user.setAccounts(accountRepository.findAccountListById(id));
+
+        //prepare roles
+        user.setRoles(roleRepository.getRolesById(id));
 
         return user;
     }
@@ -51,35 +62,41 @@ public class UserRepositoryImpl implements UserRepository{
 
     //get all users in database
     public List<User> findAllUsers() {
-        List<User> user = new ArrayList<>();
-        user.addAll(template.query("select * from user_auth;",
+        List<User> users = new ArrayList<>();
+        users.addAll(template.query("select * from user_auth;",
                 (rs, rowNum) ->  new User(
-                        rs.getInt("id"),
+                        (rs.getInt("id")),
                         rs.getString("username"),
                         rs.getString("password"))
         ));
 
-        for(int i = 0; i<user.size();i++){
-            List<Account> acc = accountRepository.findAccountListById(user.get(i).getId());
-            user.get(i).setAccounts(acc);
+        for(int i = 0; i<users.size();i++){
+            User user = users.get(i);
+            List<Account> acc = accountRepository.findAccountListById(user.getId());
+            user.setAccounts(acc);
+            user.setRoles(roleRepository.getRolesById(user.getId()));
         }
-
-        return user;
+        return users;
     }
 
     //save new User to DB
     @Override
-    public void saveUserToDB(User user){
+    public void saveUserToDB(User user) {
         String userCreds = "INSERT into user_auth (username, password) values (?,?);";
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-
         template.update(userCreds, user.getUsername(), encryptedPassword);
     }
 
     @Override
     public void removeUser(User user) {
-        String removeRole="delete from user_auth where id=?";
+        String removeRole="delete from user_auth where id=? ";
         template.update(removeRole,user.getId());
+    }
+
+    @Override
+    public void updateUser(User user){
+        String updateCommand = "update user_auth set username=?, password=? where id=?";
+        template.update(updateCommand, user.getUsername(),
+                bCryptPasswordEncoder.encode(user.getPassword()),user.getId());
     }
 }
