@@ -14,7 +14,7 @@ create table user_accounts
   funds integer(11),
   real_name varchar(255),
   primary key (id),
-  foreign key (user_id) references user_auth(id)
+  foreign key (user_id) references user_auth(id)  ON DELETE CASCADE
 );
 
 create table role
@@ -29,7 +29,7 @@ create table user_roles
   user_id integer(11),
   role_id integer(11),
   foreign key (role_id) references role (id),
-  foreign key (user_id) references user_auth(id),
+  foreign key (user_id) references user_auth(id) ON DELETE CASCADE,
   primary key (user_id, role_id)
 );
 

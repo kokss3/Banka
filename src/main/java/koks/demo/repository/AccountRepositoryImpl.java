@@ -43,9 +43,8 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public void crateAccount(Account acc) {
-        String createString = "insert into user_accounts (user_id,iban,funds,real_name) values(?,?,?,?)";
+        String createString = "insert into user_accounts (user_id, iban, funds, real_name) values(?,?,?,?)";
         template.update(createString, acc.getUser_id(), acc.getIban(), acc.getFunds(), acc.getRealName());
-
     }
 
     @Override
